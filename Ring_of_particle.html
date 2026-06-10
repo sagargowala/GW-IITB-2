@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Interactive GW Ring Animation - Dark Mode</title>
+<style>
+body{
+    background:#111;
+    color:white;
+    font-family:Arial;
+    text-align:center;
+    margin:20px;
+}
+canvas{
+    background:#000;
+    border:1px solid #666;
+}
+.controls{
+    margin:15px;
+}
+input[type=range]{
+    width:180px;
+}
+</style>
+</head>
+<body>
+
+<h2>Ring of Test Particles in a Gravitational Wave</h2>
+
+<div class="controls">
+<label>
+h+ :
+<input type="range" id="hplus" min="0" max="1" step="0.01" value="0.5">
+<span id="hpval">0.50</span>
+</label>
+
+&nbsp;&nbsp;&nbsp;
+
+<label>
+hx :
+<input type="range" id="hcross" min="0" max="1" step="0.01" value="0">
+<span id="hxval">0.00</span>
+</label>
+</div>
+
+<canvas id="canvas" width="672" height="378"></canvas>
+
+<script>
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+
+const hpSlider=document.getElementById("hplus");
+const hxSlider=document.getElementById("hcross");
+
+const hpVal=document.getElementById("hpval");
+const hxVal=document.getElementById("hxval");
+
+let t=0;
+
+const cx=336;
+const cy=189;
+const R=98;
+
+const particles=[];
+
+for(let i=0;i<56;i++){
+    let phi=2*Math.PI*i/56;
+    particles.push({
+        x:Math.cos(phi),
+        y:Math.sin(phi)
+    });
+}
+
+function drawAxes(){
+
+    ctx.strokeStyle="#888";
+    ctx.lineWidth=1.5;
+
+    ctx.beginPath();
+    ctx.moveTo(35,cy);
+    ctx.lineTo(637,cy);
+
+    ctx.moveTo(cx,343);
+    ctx.lineTo(cx,35);
+    ctx.stroke();
+
+    ctx.fillStyle="white";
+    ctx.font="20px Arial";
+
+    ctx.fillText("x",645,cy+20);
+    ctx.fillText("y",cx+12,28);
+}
+
+function draw(){
+
+    ctx.clearRect(0,0,672,378);
+
+    drawAxes();
+
+    let hp=parseFloat(hpSlider.value);
+    let hx=parseFloat(hxSlider.value);
+
+    hpVal.textContent=hp.toFixed(2);
+    hxVal.textContent=hx.toFixed(2);
+
+    let phase=Math.cos(2*Math.PI*t);
+
+    ctx.fillStyle="#00FFFF";
+
+    particles.forEach(p=>{
+
+        let x=p.x;
+        let y=p.y;
+
+        let xp=x+0.5*hp*phase*x+0.5*hx*phase*y;
+        let yp=y-0.5*hp*phase*y+0.5*hx*phase*x;
+
+        let X=cx+R*xp;
+        let Y=cy-R*yp;
+
+        ctx.beginPath();
+        ctx.arc(X,Y,4,0,2*Math.PI);
+        ctx.fill();
+    });
+
+    t+=0.005;
+
+    requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
+</body>
+</html>

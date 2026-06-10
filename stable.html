@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Gravitational Wave Physics Group – IIT Bombay</title>
+<style>
+/* ===================== VARIABLES ===================== */
+:root{
+  --bg:#04070f;--bg2:#080e1c;--bg3:#0c1220;
+  --accent:#e8c97e;--accent2:#c9a84c;--accent3:#f5dfa0;
+  --text:#dde3ee;--muted:#7a8ba8;--card:#090f1e;
+  --border:#1a2540;--font:'Segoe UI',system-ui,sans-serif;
+  --gold:linear-gradient(135deg,#e8c97e,#c9a84c);
+}
+/* ===================== RESET ===================== */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.75;overflow-x:hidden;}
+a{color:var(--accent);text-decoration:none;}a:hover{color:var(--accent3);}
+img{max-width:100%;}
+
+/* ===================== NAV ===================== */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 5%;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:62px;}
+.logo{font-size:.95rem;font-weight:700;color:var(--accent);letter-spacing:.5px;}
+.nav-right{display:flex;align-items:center;gap:4px;}
+.nav-links{display:flex;gap:4px;}
+.nav-links button{background:none;border:none;color:var(--muted);font-family:var(--font);font-size:.88rem;padding:8px 15px;border-radius:6px;cursor:pointer;transition:.2s;}
+.nav-links button:hover,.nav-links button.active{color:var(--accent);background:rgba(232,201,126,.07);}
+.theme-btn{background:none;border:1px solid var(--border);color:var(--text);padding:6px 11px;border-radius:6px;cursor:pointer;font-size:.85rem;transition:.2s;margin-left:8px;display:flex;align-items:center;gap:5px;}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;}
+.hamburger span{width:24px;height:2px;background:var(--text);border-radius:2px;}
+.mob-menu{display:none;flex-direction:column;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 5%;}
+.mob-menu button{background:none;border:none;color:var(--muted);font-family:var(--font);font-size:.95rem;padding:12px 0;cursor:pointer;text-align:left;border-bottom:1px solid var(--border);}
+.mob-menu button.active,.mob-menu button:hover{color:var(--accent);}
+
+/* ===================== PAGES ===================== */
+.page{display:none;padding-top:62px;}
+.page.active{display:block;}
+
+/* ===================== HERO ===================== */
+.hero{position:relative;height:50vh;min-height:500px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+#bhCanvas{position:absolute;inset:0;width:100%;height:100%;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(4,7,15,0) 40%,rgba(4,7,15,.85) 80%,var(--bg) 100%);}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 20px;}
+.hero-eyebrow{display:inline-block;border:1px solid rgba(232,201,126,.35);color:var(--accent);font-size:.72rem;padding:5px 16px;border-radius:20px;margin-bottom:22px;letter-spacing:1.5px;text-transform:uppercase;background:rgba(232,201,126,.05);}
+.hero h1{font-size:clamp(2.2rem,5.5vw,4rem);font-weight:800;line-height:1.12;margin-bottom:14px;}
+.hero h1 em{font-style:normal;background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero p{color:#aab8d0;font-size:clamp(.92rem,2vw,1.08rem);max-width:600px;margin:0 auto 30px;}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-gold{background:var(--gold);color:#111;border:none;padding:11px 28px;border-radius:7px;font-size:.9rem;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-gold:hover{opacity:.85;}
+.btn-ghost{background:none;border:1px solid rgba(232,201,126,.35);color:var(--accent);padding:11px 28px;border-radius:7px;font-size:.9rem;cursor:pointer;transition:.2s;}
+.btn-ghost:hover{background:rgba(232,201,126,.08);}
+
+/* ===================== HOME COMPONENTS ===================== */
+.prof-strip{display:flex;align-items:flex-start;gap:40px;flex-wrap:wrap;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:32px 5%;}
+.four-boxes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--border);}
+.fbox{background:var(--bg2);padding:32px 28px;cursor:pointer;transition:.2s;position:relative;}
+.fbox:hover{background:var(--bg3);}
+.fbox-num{font-size:2rem;font-weight:800;background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}
+.fbox h3{font-size:.95rem;font-weight:700;margin-bottom:8px;}
+.fbox p{color:var(--muted);font-size:.82rem;line-height:1.6;}
+.fbox .arr{position:absolute;bottom:20px;right:20px;color:var(--accent);font-size:1.1rem;opacity:.6;}
+.news-strip{background:var(--bg);border-bottom:1px solid var(--border);padding:32px 5%;}
+.news-strip-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.news-strip-header h2{font-size:1rem;font-weight:800;color:var(--accent);}
+.news-cards{display:flex;gap:14px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.news-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;min-width:260px;max-width:300px;flex-shrink:0;transition:.2s;}
+.news-card:hover{border-color:rgba(232,201,126,.3);}
+.news-card-date{color:var(--accent);font-size:.72rem;font-weight:700;margin-bottom:5px;}
+.news-card h4{font-size:.88rem;font-weight:700;margin-bottom:5px;line-height:1.4;}
+.news-card p{color:var(--muted);font-size:.78rem;line-height:1.5;margin-bottom:8px;}
+.news-card a,.news-card span.rm{font-size:.76rem;color:var(--accent);cursor:pointer;}
+
+/* ===================== SECTION LAYOUT ===================== */
+.home-section{padding:72px 6%;}
+.home-section+.home-section{border-top:1px solid var(--border);}
+.hs-label{color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:10px;}
+.hs-title{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;margin-bottom:6px;}
+.hs-title em{font-style:normal;background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hs-rule{width:44px;height:3px;background:var(--gold);border-radius:2px;margin:14px 0 28px;}
+.hs-body{color:#9aafc7;font-size:.92rem;line-height:1.8;}
+.hs-body p{margin-bottom:14px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.vis-box{background:#070d1a;border:1px solid var(--border);border-radius:14px;overflow:hidden;width:90%;max-width:450px;}
+.vis-img{width:100%;height:280px;object-fit:cover;display:block;}
+.vis-caption{padding:10px 14px;color:var(--muted);font-size:.75rem;text-align:center;border-top:1px solid var(--border);}
+.tg{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;margin-bottom:50px;}
+.tc{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:24px;border-left:3px solid var(--accent);transition:.22s;}
+.tc:hover{transform:translateY(-3px);}
+.tc h3{font-size:.93rem;font-weight:700;margin-bottom:8px;}
+.tc p{color:var(--muted);font-size:.82rem;line-height:1.65;}
+
+/* ===================== PROFILE PAGE ===================== */
+.profile-hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:60px 6% 44px;}
+.profile-flex{display:flex;gap:36px;align-items:flex-start;flex-wrap:wrap;}
+.prof-avatar{width:150px;height:150px;border-radius:50%;border:2px solid var(--accent);background:linear-gradient(135deg,#0d1a30,#060c18);display:flex;align-items:center;justify-content:center;font-size:4rem;flex-shrink:0;overflow:hidden;}
+.prof-avatar img{width:100%;height:100%;object-fit:cover;}
+.pi h1{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;margin-bottom:5px;}
+.pi .role{color:var(--accent);font-size:.9rem;margin-bottom:3px;}
+.pi .inst{color:var(--muted);font-size:.85rem;margin-bottom:18px;}
+.prof-links{display:flex;gap:10px;flex-wrap:wrap;}
+.plink{border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:6px;font-size:.78rem;transition:.2s;}
+.plink:hover{border-color:var(--accent);color:var(--accent);}
+.plink.cv-btn{background:rgba(232,201,126,.08);border-color:rgba(232,201,126,.4);color:var(--accent);font-weight:600;}
+.plink.cv-btn:hover{background:rgba(232,201,126,.18);}
+.profile-body{padding:44px 6%;}
+.psec{margin-bottom:44px;}
+.psec h2{font-size:1.1rem;font-weight:700;color:var(--accent);padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:18px;}
+.itags{display:flex;flex-wrap:wrap;gap:10px;}
+.itag{background:rgba(232,201,126,.06);border:1px solid rgba(232,201,126,.18);color:var(--accent);padding:6px 16px;border-radius:20px;font-size:.8rem;}
+
+/* CV link banner on profile */
+.cv-banner{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(232,201,126,.06),rgba(232,201,126,.02));border:1px solid rgba(232,201,126,.22);border-radius:11px;padding:16px 20px;margin-top:16px;flex-wrap:wrap;}
+.cv-banner p{flex:1;color:var(--muted);font-size:.85rem;}
+.pi-cv-btn{background:var(--gold);color:#111;border:none;padding:10px 22px;border-radius:7px;font-size:.88rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.2s;text-decoration:none;}
+.pi-cv-btn:hover{opacity:.85;color:#111;}
+
+.cv-row{display:flex;gap:16px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);align-items:flex-start;}
+.cv-yr{color:var(--accent);font-weight:700;font-size:.82rem;min-width:90px;}
+.cv-d h4{font-size:.9rem;font-weight:600;}
+.cv-d p{color:var(--muted);font-size:.8rem;}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;}
+.cc{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:16px;display:flex;justify-content:space-between;align-items:center;}
+.cc h4{font-size:.88rem;font-weight:700;}
+
+/* ===================== GROUP PAGE ===================== */
+.grp-sec{padding:50px 6%;}
+.grp-sec h2{font-size:1.1rem;font-weight:700;color:var(--accent);padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:22px;}
+.grp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:18px;}
+.mc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 16px;text-align:center;transition:.22s;position:relative;}
+.mc:hover{border-color:var(--accent);transform:translateY(-3px);}
+.mc-photo{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#0d1a30,#060c18);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;overflow:hidden;border:2px solid rgba(255,255,255,.08);}
+.mc-photo img{width:100%;height:100%;object-fit:cover;}
+.mc h4{font-size:.86rem;font-weight:700;margin-bottom:3px;}
+.mc p{color:var(--muted);font-size:.76rem;margin-bottom:8px;}
+.mc a{font-size:.76rem;color:var(--accent);}
+.mbadge{display:inline-block;font-size:.68rem;padding:2px 9px;border-radius:20px;margin-bottom:7px;}
+.mbadge.phd{background:rgba(232,201,126,.08);border:1px solid rgba(232,201,126,.25);color:var(--accent);}
+.mbadge.post{background:rgba(180,120,255,.08);border:1px solid rgba(180,120,255,.25);color:#b47cff;}
+
+/* ===================== RESEARCH PAGE ===================== */
+.res-body{padding:50px 6%;}
+.pub-list{display:flex;flex-direction:column;gap:15px;}
+.pub{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:20px;transition:.2s;}
+.pub:hover{border-color:var(--accent);}
+.pub-yr{color:var(--accent);font-size:.75rem;font-weight:700;margin-bottom:5px;}
+.pub h4{font-size:.9rem;font-weight:700;margin-bottom:5px;}
+.pub p{color:var(--muted);font-size:.8rem;margin-bottom:10px;}
+.pub-links{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.pl{font-size:.76rem;color:var(--accent);border:1px solid rgba(232,201,126,.25);padding:3px 10px;border-radius:5px;}
+.pl:hover{background:rgba(232,201,126,.08);}
+.dropdown-section{margin-bottom:18px;border:1px solid var(--border);border-radius:11px;overflow:hidden;}
+.dropdown-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;cursor:pointer;background:var(--bg2);transition:.2s;user-select:none;}
+.dropdown-header:hover{background:var(--bg3);}
+.dropdown-header h3{font-size:.95rem;font-weight:700;margin:0;}
+.dropdown-arrow{color:var(--accent);font-size:1.1rem;transition:transform .3s;}
+.dropdown-arrow.open{transform:rotate(180deg);}
+.dropdown-body{display:none;padding:20px;background:var(--bg);}
+.dropdown-body.open{display:block;}
+
+/* ===================== ANIMATIONS ===================== */
+.anim-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:12px;}
+.anim-card{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:18px;cursor:pointer;transition:.22s;position:relative;}
+.anim-card:hover{border-color:var(--accent);transform:translateY(-3px);}
+.anim-type-badge{font-size:.67rem;padding:2px 9px;border-radius:20px;font-weight:700;display:inline-block;margin-bottom:10px;}
+.anim-type-badge.html{background:rgba(255,120,50,.1);border:1px solid rgba(255,120,50,.3);color:#ff9060;}
+.anim-type-badge.js{background:rgba(255,220,50,.1);border:1px solid rgba(255,220,50,.3);color:#ffdc32;}
+.anim-type-badge.py{background:rgba(80,180,255,.1);border:1px solid rgba(80,180,255,.3);color:#50b4ff;}
+.anim-card h4{font-size:.88rem;font-weight:700;margin-bottom:4px;}
+.anim-card p{color:var(--muted);font-size:.76rem;}
+.anim-play-btn{position:absolute;bottom:14px;right:14px;background:var(--gold);color:#111;border:none;border-radius:5px;padding:4px 11px;font-size:.74rem;font-weight:700;cursor:pointer;}
+
+/* ===================== STATIC PAGE VIEWER ===================== */
+.static-page-view{min-height:60vh;padding:80px 6% 60px;width:100%}
+.sp-hero-img{width:100%;max-height:400px;object-fit:cover;border-radius:14px;margin-bottom:36px;border:1px solid var(--border);}
+.sp-title{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;margin-bottom:12px;}
+.sp-meta{color:var(--muted);font-size:.85rem;margin-bottom:28px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+.sp-body{color:#9aafc7;font-size:.95rem;line-height:1.95;width:100%;max-width:none;margin:0 auto;text-align:justify;}
+.sp-body p{margin-bottom:16px;text-align:justify;}
+.sp-back{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-size:.85rem;margin-bottom:28px;cursor:pointer;}
+.sp-back:hover{color:var(--accent3);}
+
+/* ===================== ANIM VIEWER ===================== */
+#page-anim .anim-viewer-wrap{width:100%;min-height:calc(100vh - 120px);border:none;display:block;}
+
+/* ===================== FOOTER ===================== */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px 6%;text-align:center;}
+footer p{color:var(--muted);font-size:.8rem;line-height:1.8;}
+
+/* ===================== ADMIN TRIGGER ===================== */
+.admin-trigger{position:fixed;bottom:24px;right:24px;z-index:200;background:var(--gold);color:#111;border:none;padding:11px 18px;border-radius:50px;font-size:.82rem;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.5);}
+.admin-trigger:hover{opacity:.85;}
+
+/* ===================== ADMIN DASHBOARD ===================== */
+.dash-overlay{position:fixed;inset:0;z-index:500;display:none;background:rgba(2,4,10,.97);flex-direction:column;}
+.dash-overlay.open{display:flex;}
+.dash-topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:52px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;}
+.dash-topbar h2{font-size:.9rem;font-weight:700;color:var(--accent);}
+.dash-topbar-actions{display:flex;gap:8px;align-items:center;}
+.dash-topbar-actions button{background:none;border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.78rem;font-family:var(--font);}
+.dash-topbar-actions button:hover{border-color:var(--accent);color:var(--accent);}
+.dash-user-badge{font-size:.72rem;padding:3px 10px;border-radius:20px;background:rgba(232,201,126,.08);border:1px solid rgba(232,201,126,.2);color:var(--accent);}
+.dash-section-tabs{display:flex;gap:6px;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto;flex-shrink:0;scrollbar-width:none;}
+.dash-section-tabs::-webkit-scrollbar{display:none;}
+.dash-section-tabs button{border:none;background:rgba(255,255,255,.05);color:var(--muted);padding:8px 14px;border-radius:20px;cursor:pointer;white-space:nowrap;font-size:.8rem;font-family:var(--font);transition:.2s;flex-shrink:0;}
+.dash-section-tabs button:hover{background:rgba(232,201,126,.10);color:var(--accent);}
+.dash-section-tabs button.active{background:rgba(232,201,126,.16);color:var(--accent);}
+.dash-main{flex:1;overflow-y:auto;padding:24px;}
+.dash-main h1{font-size:1.2rem;font-weight:800;margin-bottom:6px;}
+.dash-main .sub{color:var(--muted);margin-bottom:20px;font-size:.85rem;}
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:28px;}
+.dash-card{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:18px;cursor:pointer;transition:.2s;}
+.dash-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.dash-card .dc-icon{font-size:1.4rem;margin-bottom:8px;}
+.dash-card h3{font-size:.85rem;font-weight:700;margin-bottom:3px;}
+.dash-card p{color:var(--muted);font-size:.74rem;}
+
+/* ===================== FORMS ===================== */
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:4px;font-weight:600;}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:7px;font-family:var(--font);font-size:.85rem;outline:none;transition:.2s;}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--accent);}
+.form-group textarea{resize:vertical;min-height:85px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-actions{display:flex;gap:9px;margin-top:20px;flex-wrap:wrap;}
+.btn-save{background:var(--gold);color:#111;border:none;padding:9px 22px;border-radius:7px;font-size:.85rem;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-save:hover{opacity:.85;}
+.btn-cancel{background:none;border:1px solid var(--border);color:var(--muted);padding:9px 18px;border-radius:7px;font-size:.85rem;cursor:pointer;font-family:var(--font);transition:.2s;}
+.btn-cancel:hover{border-color:var(--accent);color:var(--accent);}
+.btn-danger{background:rgba(255,80,80,.1);border:1px solid rgba(255,80,80,.3);color:#ff6060;padding:9px 16px;border-radius:7px;font-size:.82rem;cursor:pointer;font-family:var(--font);transition:.2s;}
+.btn-danger:hover{background:rgba(255,80,80,.2);}
+.btn-sm{padding:4px 11px;border-radius:5px;font-size:.74rem;cursor:pointer;border:1px solid var(--border);background:none;color:var(--muted);font-family:var(--font);transition:.2s;}
+.btn-sm:hover{border-color:var(--accent);color:var(--accent);}
+.btn-sm.danger{border-color:rgba(255,80,80,.3);color:#ff6060;}
+.btn-sm.danger:hover{background:rgba(255,80,80,.1);}
+.btn-sm.primary{background:rgba(232,201,126,.1);border-color:rgba(232,201,126,.3);color:var(--accent);}
+.btn-sm.primary:hover{background:rgba(232,201,126,.2);}
+.btn-add{display:inline-flex;align-items:center;gap:5px;background:rgba(232,201,126,.07);border:1px dashed rgba(232,201,126,.35);color:var(--accent);padding:8px 16px;border-radius:7px;font-size:.82rem;cursor:pointer;transition:.2s;font-family:var(--font);margin-bottom:14px;}
+.btn-add:hover{background:rgba(232,201,126,.14);}
+.list-item{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:12px 14px;margin-bottom:9px;display:flex;align-items:center;gap:11px;transition:.2s;}
+.list-item:hover{border-color:rgba(232,201,126,.2);}
+.list-item-main{flex:1;min-width:0;}
+.list-item-main h4{font-size:.85rem;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.list-item-main p{font-size:.74rem;color:var(--muted);}
+.list-item-actions{display:flex;gap:5px;flex-shrink:0;}
+
+/* ===================== DASH TABS ===================== */
+.dash-tabs{display:flex;gap:3px;margin-bottom:20px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.dash-tab{padding:8px 15px;font-size:.82rem;cursor:pointer;color:var(--muted);border:none;background:none;font-family:var(--font);border-bottom:2px solid transparent;margin-bottom:-1px;transition:.2s;}
+.dash-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.dash-tab-panel{display:none;}
+.dash-tab-panel.active{display:block;}
+.sec-divider{font-size:.72rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700;margin:20px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--border);}
+
+/* ===================== MODAL ===================== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.hidden{display:none;}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:26px;width:100%;max-width:520px;max-height:86vh;overflow-y:auto;}
+.modal h3{font-size:.98rem;font-weight:700;margin-bottom:18px;color:var(--accent);}
+.modal-actions{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap;}
+
+/* ===================== USERS ===================== */
+.user-row{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+.user-avatar{width:34px;height:34px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;border:1px solid var(--border);}
+.user-info{flex:1;}
+.user-info h4{font-size:.85rem;font-weight:600;}
+.user-info p{font-size:.74rem;color:var(--muted);}
+.role-badge{font-size:.68rem;padding:2px 9px;border-radius:20px;font-weight:700;}
+.role-badge.admin{background:rgba(232,201,126,.12);border:1px solid rgba(232,201,126,.3);color:var(--accent);}
+.role-badge.viewer{background:rgba(100,180,255,.08);border:1px solid rgba(100,180,255,.25);color:#64b4ff;}
+
+/* ===================== CV UPLOAD ===================== */
+.cv-upload-area{border:2px dashed rgba(232,201,126,.3);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:.2s;margin-bottom:12px;}
+.cv-upload-area:hover{border-color:var(--accent);background:rgba(232,201,126,.04);}
+.cv-upload-area p{color:var(--muted);font-size:.82rem;margin-bottom:8px;}
+.cv-current{background:rgba(232,201,126,.06);border:1px solid rgba(232,201,126,.2);border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.cv-current p{font-size:.82rem;color:var(--accent);flex:1;}
+
+/* ===================== TOAST ===================== */
+.toast{position:fixed;bottom:76px;right:24px;z-index:9999;background:#1a2f1a;border:1px solid #3a6b3a;color:#7dcc7d;padding:11px 18px;border-radius:9px;font-size:.83rem;transform:translateY(20px);opacity:0;transition:.3s;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.error{background:#2f1a1a;border-color:#6b3a3a;color:#cc7d7d;}
+.toast.info{background:#1a2040;border-color:#3a5080;color:#80a8ff;}
+
+/* ===================== LIGHT THEME ===================== */
+body.light-theme{--bg:#f5f7fb;--bg2:#ffffff;--bg3:#eef2f8;--text:#0b1220;--muted:#5a6b85;--card:#ffffff;--border:#d6deea;--accent:#b8963a;--accent2:#9c7c2f;--accent3:#d4b45a;--gold:linear-gradient(135deg,#d4b45a,#9c7c2f);}
+body.light-theme .hero{background:#04070f;}
+body.light-theme .hero h1{color:#dde3ee;}
+body.light-theme .hero p{color:#aab8d0;}
+body.light-theme .hero-eyebrow{color:#e8c97e;}
+body.light-theme .hs-body{color:#4a5a74;}
+body.light-theme .sp-body{color:#3a4a64;}
+
+/* ===================== RESPONSIVE ===================== */
+@media(max-width:900px){.two-col{grid-template-columns:1fr;}}
+@media(max-width:700px){
+  .nav-links{display:none;}.hamburger{display:flex;}
+  .home-section,.grp-sec,.res-body,.profile-body,.profile-hero{padding-left:4%;padding-right:4%;}
+  .hero h1{font-size:2rem;}.form-row{grid-template-columns:1fr;}
+  .prof-strip{gap:20px;}.news-cards{gap:10px;}
+}
+@media(max-width:480px){
+  .dash-main{padding:14px;}.dash-section-tabs{padding:8px 10px;gap:4px;}
+  .dash-section-tabs button{padding:7px 10px;font-size:.75rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV
+============================================================ -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">GW Physics · IIT Bombay</div>
+    <div class="nav-right">
+      <div class="nav-links">
+        <button class="active" onclick="showPage('home',this)">Home</button>
+        <button onclick="showPage('prof',this)">Profile</button>
+        <button onclick="showPage('group',this)">Group</button>
+        <button onclick="showPage('research',this)">Research</button>
+        <button onclick="showPage('gw',this)">Resources</button>
+      </div>
+      <button class="theme-btn" id="themeToggle"><span id="themeIcon">🌙</span><span id="themeLabel">Dark</span></button>
+      <div class="hamburger" onclick="toggleMob()"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+  <div class="mob-menu" id="mobMenu">
+    <button class="active" onclick="showPage('home',this,true)">Home</button>
+    <button onclick="showPage('prof',this,true)">Profile</button>
+    <button onclick="showPage('group',this,true)">Group</button>
+    <button onclick="showPage('research',this,true)">Research</button>
+    <button onclick="showPage('gw',this,true)">Resources</button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HOME PAGE
+============================================================ -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <canvas id="bhCanvas"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">IIT Bombay · ACG Group</div>
+      <h1>Gravitational Wave<br/><em>Physics Group</em></h1>
+      <p>Listening to the universe through ripples in spacetime — uncovering the physics of black holes, neutron stars, and spacetime</p>
+      <div class="hero-btns">
+        <button class="btn-gold" onclick="showPage('research',document.querySelectorAll('.nav-links button')[3])">Our Research</button>
+        <button class="btn-ghost" onclick="showPage('group',document.querySelectorAll('.nav-links button')[2])">Meet the Group</button>
+      </div>
+    </div>
+  </div>
+  <div class="prof-strip" id="pi-strip"></div>
+  <div class="news-strip" id="news-strip">
+    <div class="news-strip-header"><h2>📢 News & Updates</h2></div>
+    <div class="news-cards" id="news-cards-container"></div>
+  </div>
+  <div class="four-boxes">
+    <div class="fbox" onclick="showPage('group',document.querySelectorAll('.nav-links button')[2])"><div class="fbox-num">01</div><h3>Research Group</h3><p>Meet our PhD students, postdocs, and alumni contributing to GW science.</p><span class="arr">→</span></div>
+    <div class="fbox" onclick="showPage('research',document.querySelectorAll('.nav-links button')[3])"><div class="fbox-num">02</div><h3>Research & Publications</h3><p>Explore our research areas, recent papers, and contributions to the LSC.</p><span class="arr">→</span></div>
+    <div class="fbox" onclick="showPage('gw',document.querySelectorAll('.nav-links button')[4])"><div class="fbox-num">03</div><h3>Gravitational Wave Science</h3><p>What are gravitational waves? How are they generated, detected & analysed?</p><span class="arr">↓</span></div>
+  </div>
+
+
+  <div id="gw-info">
+    <div class="home-section">
+      <div class="hs-label">Fundamentals</div>
+      <div class="hs-title">What are <em>Gravitational Waves?</em></div>
+      <div class="hs-rule"></div>
+      <div class="two-col">
+        <div class="hs-body" style="text-align: justify;">
+          <p>
+            Gravitational waves are 'ripples' in space-time caused by some of the most violent and energetic processes in the Universe. 
+            Albert Einstein predicted the existence of gravitational waves in 1916 in his general theory of relativity. 
+            Einstein's mathematics showed that massive accelerating objects (things like neutron stars or black holes orbiting each other) 
+            would disrupt space-time in such a way that 'waves' of undulating space-time would propagate in all directions away from the source. 
+            These cosmic ripples would travel at the speed of light, carrying with them information about their origins, as well as clues to the nature of gravity itself.
+          </p>
+
+          <p>
+            The strongest gravitational waves are produced by cataclysmic events such as colliding black holes, 
+            supernovae (massive stars exploding at the end of their lifetimes), and colliding neutron stars. 
+            Other gravitational waves are predicted to be caused by the rotation of neutron stars that are not perfect spheres, 
+            and possibly even the remnants of gravitational radiation created by the Big Bang.
+          </p>
+          <div style="margin-top:22px;"><span id="gw-readmore-link" style="cursor:pointer;color:var(--accent);font-weight:600;">Read more about GW Physics →</span></div>
+        </div>
+
+      <div>
+        <div class="vis-box">
+          <video class="vis-img"
+                autoplay
+                muted
+                loop
+                playsinline>
+            <source src="images/gw_merger.webm" type="video/webm">
+            Your browser does not support the video tag.
+          </video>
+
+        <div class="vis-caption">
+          Gravitational-wave emission from a compact binary coalescence (CBC).<br>
+          Source: LIGO (https://www.ligo.caltech.edu)
+        </div>
+        </div>
+      </div>
+          
+        
+        <!-- <div><div class="vis-box"><img src="images/gw-merger.png" alt="BH merger" class="vis-img" onerror="this.style.display='none'"><div class="vis-caption">GW from a binary black hole merger and detection using Michelson interferometer</div></div></div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="home-section" style="background:var(--bg2);">
+    <div class="hs-label">Our Focus</div>
+    <div class="hs-title">What Our Group <em>Investigates</em></div>
+    <div class="hs-rule"></div>
+    <div class="tg" id="home-focus-grid"></div>
+    <button class="btn-gold" onclick="showPage('research',document.querySelectorAll('.nav-links button')[3])">View All Research →</button>
+  </div>
+  <footer><p>Gravitational Wave Physics Group · Department of Physics · IIT Bombay · Powai, Mumbai 400076<br/><a href="#" onclick="copyEmail(event)">archanap@iitb.ac.in</a> · <a href="https://inspirehep.net/authors/994508" target="_blank">INSPIRE</a> · <a href="https://scholar.google.com/citations?hl=en&user=2Dw4Y9AAAAAJ" target="_blank">Google Scholar</a></p></footer>
+</div>
+
+<!-- ============================================================
+     PROFILE PAGE
+============================================================ -->
+
+
+<div class="page" id="page-prof">
+  <div class="profile-hero">
+    <div class="profile-flex">
+      <div class="prof-avatar"><img id="prof-photo" src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='👩‍🔬'"/></div>
+      <div class="pi">
+        <h1 id="prof-name"></h1>
+        <div class="role" id="prof-role"></div>
+        <div class="inst" id="prof-inst"></div>
+        <div class="prof-links">
+          <a class="plink" id="prof-inspire" href="#" target="_blank">INSPIRE</a>
+          <a class="plink" id="prof-scholar" href="#" target="_blank">Google Scholar</a>
+          <a class="plink" href="#" onclick="copyEmail(event)">archanap@iitb.ac.in</a>
+          <a class="plink cv-btn" id="prof-cv-btn" href="#" target="_blank" style="display:none;"> 📄 View CV</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="profile-body">
+
+    <!-- Research Interests -->
+    <div class="psec">
+      <h2>Research Interests</h2>
+      <div class="itags" id="interests-list"></div>
+    </div>
+     
+    <!-- About Section -->
+    <p id="prof-about" style="color:#9aafc7;font-size:.9rem;line-height:1.8;margin-bottom:32px;"></p>
+
+
+    <div class="psec"><h2>Academic Positions & Education</h2><div id="positions-list"></div></div>
+
+    <div class="psec">
+      <div class="cv-banner" id="cv-banner" style="display:none;">
+      <p>To learn more about academic background, publications, and full career details:</p>
+      <a class="pi-cv-btn" id="cv-banner-btn" href="#" target="_blank">📄 See CV to Know More</a>
+      </div>
+    </div>
+
+
+    <div class="psec"><h2>Contact</h2><p id="contact-info" style="color:#9aafc7;font-size:.88rem;"></p></div>
+
+
+    <!-- <div class="psec"><h2>Education</h2><div id="edu-list"></div></div>
+    <div class="psec"><h2>Research Highlights</h2><ul id="highlights-list" style="color:#9aafc7;font-size:.9rem;line-height:1.8;padding-left:20px;"></ul></div>
+    <div class="psec"><h2>Awards & Recognition</h2><ul id="awards-list" style="color:#9aafc7;font-size:.9rem;line-height:1.8;padding-left:20px;"></ul></div>
+ -->
+
+  </div>
+  <footer><p>GW Physics Group · IIT Bombay · <a href="#" onclick="copyEmail(event)">archanap@iitb.ac.in</a></p></footer>
+</div>
+
+<!-- ============================================================
+     GROUP PAGE
+============================================================ -->
+<div class="page" id="page-group">
+  <div class="grp-sec" style="padding-top:72px;">
+    <div class="hs-label">People</div>
+    <div class="hs-title" style="font-size:clamp(1.4rem,3vw,2rem);font-weight:800;">Our <em style="font-style:normal;background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Research Group</em></div>
+    <div class="hs-rule"></div>
+    <p id="group-desc" style="max-width:1300px;color:var(--muted);font-size:.9rem;line-height:1.6;margin-top:14px;"></p>
+    <div class="grp-sec" style="padding:30px 0 0;"><h2>Current Group Members</h2><div class="grp-grid" id="current-members"></div></div>
+    <div class="grp-sec" style="padding:30px 0 0;"><h2>Alumni</h2><div class="grp-grid" id="alumni-members"></div></div>
+    <p style="margin-top:18px;color:var(--muted);font-size:.83rem;" id="group-updated"></p>
+  </div>
+  <footer><p>GW Physics Group · IIT Bombay · <a href="#" onclick="copyEmail(event)">archanap@iitb.ac.in</a></p></footer>
+</div>
+
+<!-- ============================================================
+     RESEARCH PAGE
+============================================================ -->
+<div class="page" id="page-research">
+  <div class="res-body" style="padding-top:72px;">
+    <div class="hs-label">Research</div>
+    <div class="hs-title" style="font-size:clamp(1.4rem,3vw,2rem);font-weight:800;">Research <em style="font-style:normal;background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Areas</em></div>
+    <div class="hs-rule"></div>
+    <div class="tg" id="research-areas"></div>
+    <div class="hs-title" style="font-size:1.4rem;font-weight:800;margin-bottom:6px;">Publications</div>
+    <div class="hs-rule"></div>
+    <p style="color:var(--muted);font-size:.85rem;margin-bottom:22px;">Full list: <a href="https://inspirehep.net/authors/994508" target="_blank">INSPIRE HEP</a> · <a href="https://scholar.google.com/citations?hl=en&user=2Dw4Y9AAAAAJ" target="_blank">Google Scholar</a></p>
+    <div class="dropdown-section"><div class="dropdown-header" onclick="toggleDrop('pubs-group')"><h3>Recent Publications from the Group</h3><span class="dropdown-arrow" id="arr-pubs-group">▼</span></div><div class="dropdown-body" id="pubs-group"><div class="pub-list" id="pub-list-group"></div></div></div>
+    <div class="dropdown-section" style="margin-top:14px;"><div class="dropdown-header" onclick="toggleDrop('pubs-ligo')"><h3>Selected Publications as a Member of LIGO Scientific Collaboration</h3><span class="dropdown-arrow" id="arr-pubs-ligo">▼</span></div><div class="dropdown-body" id="pubs-ligo"><div class="pub-list" id="pub-list-ligo"></div></div></div>
+  </div>
+  <footer><p>GW Physics Group · IIT Bombay · <a href="#" onclick="copyEmail(event)">archanap@iitb.ac.in</a></p></footer>
+</div>
+
+<!-- ============================================================
+     RESOURCES PAGE
+============================================================ -->
+<div class="page" id="page-gw">
+  <div class="res-body" style="padding-top:72px;">
+    <div class="hs-label">Resources</div>
+    <div class="hs-title">Learn <em style="font-style:normal;background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Gravatational Wave Astronomy</em></div>
+    <div class="hs-rule"></div>
+    <p style="color:var(--muted);max-width:900px;margin-bottom:32px;">Curated resources for gravitational wave physics — textbooks, review articles, video lectures, popular science, and interactive simulations.</p>
+    <div id="resources-sections"></div>
+  </div>
+  <footer><p>GW Physics Group · IIT Bombay</p></footer>
+</div>
+
+<!-- ============================================================
+     STATIC PAGE VIEWER
+============================================================ -->
+<div class="page" id="page-static">
+  <div class="static-page-view">
+    <div class="sp-back" onclick="goBackFromStatic()">← Back</div>
+    <div id="sp-content"></div>
+  </div>
+  <footer><p>GW Physics Group · IIT Bombay</p></footer>
+</div>
+
+<!-- ============================================================
+     ANIMATION VIEWER
+============================================================ -->
+<div class="page" id="page-anim">
+  <div style="padding-top:62px;">
+    <div style="padding:14px 20px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="sp-back" style="margin:0;" onclick="goBackFromAnim()">← Back to Resources</span>
+        <span id="anim-viewer-title" style="font-size:.88rem;color:var(--accent);font-weight:600;"></span>
+      </div>
+      <span id="anim-viewer-badge" style="font-size:.72rem;color:var(--muted);"></span>
+    </div>
+    <div id="anim-viewer-container" style="width:100%;min-height:calc(100vh - 120px);background:#000;position:relative;"></div>
+  </div>
+</div>
+
+<button class="admin-trigger" id="admin-trigger-btn" onclick="openDash()">🔐 Login</button>
+
+<!-- ============================================================
+     ADMIN DASHBOARD
+============================================================ -->
+<div class="dash-overlay" id="dash-overlay">
+  <div class="dash-topbar">
+    <h2>⚙️ Admin · <span id="dash-section-title" style="color:var(--muted);font-weight:400;">Dashboard</span></h2>
+    <div class="dash-topbar-actions">
+      <span class="dash-user-badge" id="dash-user-label">—</span>
+      <button onclick="closeDash()">← Website</button>
+      <button onclick="adminLogout()" style="color:#ff6060;border-color:rgba(255,80,80,.3);">Logout</button>
+    </div>
+  </div>
+  <div class="dash-section-tabs" id="dash-section-tabs"></div>
+  <div class="dash-main" id="dash-main"></div>
+</div>
+
+<!-- ============================================================
+     MODAL
+============================================================ -->
+<div class="modal-overlay hidden" id="sub-modal">
+  <div class="modal">
+    <h3 id="sub-modal-title"></h3>
+    <div id="sub-modal-body"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeSubModal()">Cancel</button>
+      <button class="btn-save" id="sub-modal-save" onclick="subModalSave()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ============================================================
+     SCRIPT
+============================================================ -->
+<script>
+/* ============================================================
+   AUTH — passwords stored as SHA-256 hashes, never in plain text.
+   The built-in credentials below are hashed at runtime on first
+   load and the plain-text seed is discarded.
+============================================================ */
+
+// Simple SHA-256 via SubtleCrypto
+async function sha256(str){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+// Seed users with PLAIN passwords only the first time; we hash them immediately.
+const SEED_USERS = [
+  {id:'archana',  username:'archana', plainPass:'gw2026',        role:'admin',  displayName:'Archana Pai'},
+  {id:'sagar',    username:'sagar',   plainPass:'gw2026',        role:'admin',  displayName:'Sagar Gowala'},
+
+];
+
+/* ============================================================
+   DEFAULT DATA
+============================================================ */
+const DEF = {
+  pi:{name:"Prof. Archana Pai",photo:"images/archana.jpg",bio:"I work on Gravitational Wave physics. The research interests are probing astrophysical properties of compact binary black holes and testing Einstein's general theory of relativity, development of specialized transient search techniques for interferometric gravitational wave detectors and multi-messenger astronomy."},
+  profPage:{name:"Prof. Archana Pai",photo:"images/archana.jpg",role:"Professor · Gravitational Wave Physics",inst:"Department of Physics, IIT Bombay, Mumbai – 400076",about:"I work on Gravitational Wave physics. The research interests are probing astrophysical properties of compact binary black holes and testing Einstein's general theory of relativity, development of specialized transient search techniques for interferometric gravitational wave detectors and multi-messenger astronomy.",inspire:"https://inspirehep.net/authors/994508",scholar:"https://scholar.google.com/citations?hl=en&user=2Dw4Y9AAAAAJ"},
+  piCV:{url:"",fileName:""},
+  interests:["Multi-detector gravitational wave astronomy with black hole binaries","Signal detection algorithms for gravitational wave transients","Testing GR with gravitational wave observations","Multi-messenger astronomy"],
+  positions:[
+    {yr:"2022–Present",title:"Professor",org:"Department of Physics, IIT Bombay"},
+    {yr:"1996–2001",title:"Ph.D. in Physics",org:"IUCAA (University of Pune)"},
+  ],
+  contact:"📧 archana@phy.iitb.ac.in | archanap@iitb.ac.in\n☎️ +91-22-2576-9380\n🏛️ Office: 114, First Floor, Department of Physics, IIT Bombay, Powai, Mumbai – 400076",
+  groupDesc:"Current focus of the group is intermediate mass binary searches as well as eccentric black hole binary searches ranging from matched filter based searches, wavelet based searches to machine learning based transient searches. The group is an active member of the IMBH/eBBH subgroup in the LIGO Scientific Collaboration.",
+  groupUpdated:"📌 Information last updated on June 11, 2026.",
+  news:[
+    {date:"01-03-2026",title:"New Paper Published",body:"Our latest paper on CNN-based GW transient detection has been published in Physical Review D.",link:"https://doi.org/10.1103/dpmn-c6lm",staticPageId:""}
+  ],
+  members:[
+    {type:"current",name:"Sayantan Ghosh",badge:"PhD Student",photo:"images/sayantan.jpg",scholar:"https://scholar.google.com/",inspire:"https://inspirehep.net/authors/2897706",web:""},
+    {type:"current",name:"Johann Milton Fernandes",badge:"PhD Student",photo:"images/Johann.jpeg",scholar:"",inspire:"",web:""},
+    {type:"current",name:"Lucky Chaudhary ",badge:"PhD Student",photo:"images/Lucky.jpeg",scholar:"",inspire:"",web:""},
+    {type:"current",name:"Sagar Gowala",badge:"PhD Student",photo:"images/sagar.jpg",scholar:"",inspire:"",web:""},
+    {type:"current",name:"Shubhagata Bhaumik",badge:"Postdoc",photo:"images/Shubhagata.jpg",scholar:"",inspire:"https://inspirehep.net/authors/1874458",web:"https://shubhagatab.github.io/"},
+    {type:"alumni",name:"Koustav Chandra",badge:"PhD Graduate",photo:"images/Koustav2.jpg",pos:"Postdoc, Max Planck Institute for Gravitational Physics",web:"https://www.aei.mpg.de/person/149857"},
+    {type:"alumni",name:"Haris M. K.",badge:"PhD Graduate",photo:"images/Haris.png",pos:"Assistant Professor, NIT Calicut",web:"https://nitc.ac.in/"},
+    {type:"alumni",name:"Md Saleem Cholayil",badge:"PhD Graduate",photo:"images/saleem.jpg",pos:"Postdoc, Weinberg Institute, UT Austin",web:"https://saleem-muhammed.github.io/"},
+    {type:"alumni",name:"Gayathri V",badge:"PhD Graduate",photo:"images/gayatri.jpg",pos:"Postdoc, University of Wisconsin-Milwaukee",web:"https://gayathrigcc.github.io/gayathriv.github.io/"},
+    {type:"alumni",name:"Nirban Bose",badge:"PhD Graduate",photo:"images/Nirban.jpg",pos:"Senior AI Scientist, American Express",web:"https://www.linkedin.com/in/nirban-bose-phd-81a178143/"}
+  ],
+
+
+  researchAreas:[
+  {icon:"🌌",title:"Gravitational Wave Transient Searches",desc:"Detecting and characterizing transient gravitational-wave signals from compact binary coalescences, supernovae, and other short-duration astrophysical sources."},
+  {icon:"📐",title:"Tests of General Relativity",desc:"Probing the foundations of Einstein’s theory using gravitational wave observations to search for deviations from General Relativity in the strong-field regime."},
+  {icon:"🔭",title:"Multi-Messenger Astronomy",desc:"Combining gravitational wave observations with electromagnetic and neutrino signals to uncover the physics of the most energetic cosmic events."},
+  {icon:"⚫",title:"Compact Object Physics",desc:"Investigating the properties, formation, and evolution of black holes, neutron stars, and other compact objects through gravitational wave observations."}
+  ],
+  pubsGroup:[
+    {yr:"2025",title:"Improving the detection significance of gravitational wave transient searches with convolutional neural network models",authors:"Johann Fernandes, Archana Pai, Koustav Chandra",journal:"Physical Review D 112, 083043",doi:"https://doi.org/10.1103/dpmn-c6lm"},
+    {yr:"2025",title:"Leveraging cross-detector parameter consistency measures to enhance sensitivities of gravitational wave detectors",authors:"Sayantan Ghosh, Leigh Smith, Jiyoon Sun, Archana Pai, Ik Siong Heng, V. Gayathri",journal:"Physical Review D 112, 063026",doi:"https://doi.org/10.1103/39mf-6qrx"},
+    {yr:"2024",title:"Enhancing search pipelines for short gravitational-wave transients with Gaussian mixture modelling",authors:"Leigh Smith, Sayantan Ghosh, J. Sun, V. Gayathri, Ik Siong Heng, Archana Pai",journal:"Physical Review D 110, 083032",doi:"https://journals.aps.org/prd/abstract/10.1103/PhysRevD.110.083032"},
+    {yr:"2024",title:"Probing eccentric higher order modes through effective chirp mass model",authors:"Ravikiran Hegde, Nirban Bose, Archana Pai",journal:"Physical Review D 110, 044026",doi:"https://journals.aps.org/prd/abstract/10.1103/PhysRevD.110.044026"},
+    {yr:"2023",title:"Searching for massive black hole binaries with a transfer learning algorithm",authors:"Kritti Sharma, Koustav Chandra, Archana Pai",journal:"Physical Review D 108, 124061",doi:"https://journals.aps.org/prd/abstract/10.1103/PhysRevD.108.124061"},
+    {yr:"2021",title:"Effective chirp mass in the inspiral frequency evolution of non-spinning eccentric compact binaries",authors:"Nirban Bose, Archana Pai",journal:"Physical Review D 104, 124021",doi:"https://journals.aps.org/prd/abstract/10.1103/PhysRevD.104.124021"}
+  ],
+  pubsLigo:[
+    {yr:"2025",title:"GW231123: A binary black hole merger with total mass 190–265 M☉",authors:"A. G. Abac, Archana Pai et al.",journal:"The Astrophysical Journal Letters 993, L25",doi:"https://doi.org/10.3847/2041-8213/ae0c9c"}
+  ],
+
+
+  resources:{
+    books:[
+      {title:"Gravitational Waves: Volume 1 – Theory and Experiments",
+      authors:"Michele Maggiore",
+      url:"https://academic.oup.com/book/41655?login=true"},
+      {title:"Gravitational Wave Physics and Astronomy",
+      authors:"Jolien D. E. Creighton & Warren G. Anderson",
+      url:"https://onlinelibrary.wiley.com/doi/book/10.1002/9783527636037"},
+      {title:"A First Course in General Relativity",
+      authors:"Bernard Schutz",
+      url:"https://www.cambridge.org/core/books/a-first-course-in-general-relativity/3805425203DD91A7436EF6E5F2082263"}],
+
+    reviews:[
+      {title:"Gravitational Waves",
+      authors:"K. S. Thorne",
+      url:"https://arxiv.org/abs/gr-qc/9506084"},
+      {title:"Gravitational Radiation",
+      authors:"B. F. Schutz",
+      url:"https://arxiv.org/abs/gr-qc/0003069"},
+      {title:"Physics, Astrophysics and Cosmology with Gravitational Waves",
+      authors:"B. S. Sathyaprakash and Bernard F. Schutz",
+      url:"https://link.springer.com/article/10.12942/lrr-2009-2"}],
+
+    videos:[
+      {title:"Summer School on Gravitational Wave Astronomy 2015",
+        authors:"ICTS YouTube Playlist",
+        url:"https://youtube.com/playlist?list=PL04QVxpjcnjjuLDeNFWIlc8fcXSUqqxAG&si=mtfyVX1ly_rG1RNm"},
+      {title:"Gravitational Wave Open Science Center",
+        authors:"GWOSC Team",
+        url:"https://gwosc.org/"}],
+
+    popular:[
+      {title:"Einstein's Unfinished Symphony",
+      authors:"Marcia Bartusiak",
+      url:"https://yalebooks.yale.edu/book/9780300223392/einsteins-unfinished-symphony/"},],
+    animations:[]
+  },
+staticPages:[
+  {
+    id:"gw-intro",
+    title:"About Gravitational Waves",
+    subtitle:"A Deeper Look into Ripples in Spacetime",
+    photo:"images/GW_IMR.jpg",
+    date:"April 2026",
+    author:"Admin",
+    body:`Gravitational waves are ripples in spacetime generated by some of the most violent and energetic events in the Universe. Albert Einstein predicted their existence in 1916 as a consequence of his general theory of relativity. According to Einstein's equations, accelerating massive objects such as orbiting neutron stars or black holes disturb the fabric of spacetime, producing waves that propagate outward in all directions at the speed of light. These waves carry unique information about their astrophysical sources, allowing scientists to study phenomena that are otherwise invisible through conventional electromagnetic observations. Gravitational-wave astronomy has opened a new window on the Universe, providing insights into the nature of gravity, compact objects, and the evolution of cosmic structures. The strongest gravitational waves are produced by cataclysmic events such as mergers of black holes and neutron stars, as well as certain supernova explosions. Other potential sources include rapidly rotating neutron stars with slight asymmetries and gravitational radiation generated in the early Universe shortly after the Big Bang.
+    The strongest gravitational waves are produced by cataclysmic events such as colliding black holes, supernovae (massive stars exploding at the end of their lifetimes), and colliding neutron stars. Other gravitational waves are predicted to be caused by the rotation of neutron stars that are not perfect spheres, and possibly even the remnants of gravitational radiation created by the Big Bang.
+    Though Einstein predicted the existence of gravitational waves in 1916, the first proof of their existence didn't arrive until 1974. In that year, two astronomers, Russell Hulse and Joseph Taylor, using the Arecibo Radio Observatory in Puerto Rico discovered a binary pulsar 21000 light years from Earth. This was exactly the type of system that general relativity predicted should radiate gravitational waves. Knowing that the system could be studied to test Einstein's prediction, Taylor and two colleagues (Joel Weisberg and Lee Fowler) began tracking the radio emissions from the stars to measure how their orbital period changed over time. After just four years, they first reported seeing a change in the period that verified that the stars were getting closer to each other at the rate predicted by general relativity (GR) if they were radiating gravitational waves (the rate predicted by GR agreed with the observed rate to within one half of one percent). In 1993, Hulse and Taylor would receive the Nobel Prize in Physics "for the discovery of a new type of pulsar, a discovery that has opened up new possibilities for the study of gravitation".
+    Since then, many astronomers have studied pulsar radio-emissions (pulsars are neutron stars that emit beams of radio waves) and found similar effects, further confirming the existence of gravitational waves. But these confirmations had always come indirectly, requiring that one infer the existence of gravitational waves.
+    All of this changed on September 14, 2015 when U.S. National Science Foundation Laser Interferometer Gravitational-wave Observatory (NSF LIGO) physically sensed the undulations in spacetime caused by gravitational waves generated by two colliding black holes 1.3 billion light-years away. NSF LIGO's first detection will go down in history as one of humanity's greatest scientific achievements.
+    `,
+    linkedFrom:"home"
+  }
+],
+gwReadMorePage:"gw-intro",
+
+// Users stored with hashed passwords — populated during init
+users:[]
+};
+
+
+/* ============================================================
+   STATE
+============================================================ */
+let D = {};
+let currentUser = null;
+let subModalHandler = null;
+let currentDashSection = 'dashboard';
+let staticPageReturnPage = 'home';
+let animReturnPage = 'gw';
+const _activeTab = {};
+
+/* ============================================================
+   STORAGE  (window.storage — provided by Claude.ai artifact env)
+============================================================ */
+async function saveDB(){
+  try{ await window.storage.set('gw-v7', JSON.stringify(D)); }
+  catch(e){ console.warn('Storage save failed', e); }
+}
+
+async function loadDB(){
+  try{
+    const r = await window.storage.get('gw-v7');
+    if(r && r.value){
+      D = JSON.parse(r.value);
+      // Patch in any missing keys from DEF (safe migration)
+      if(!D.piCV)       D.piCV       = {...DEF.piCV};
+      if(!D.resources)  D.resources  = JSON.parse(JSON.stringify(DEF.resources));
+      if(!D.resources.animations) D.resources.animations = [];
+      if(!D.users)      D.users      = [];
+    } else {
+      D = JSON.parse(JSON.stringify(DEF));
+      D.users = [];
+    }
+    // Always ensure hashed built-in users exist
+    await ensureBuiltinUsers();
+  } catch(e){
+    D = JSON.parse(JSON.stringify(DEF));
+    D.users = [];
+    await ensureBuiltinUsers();
+  }
+}
+
+async function ensureBuiltinUsers(){
+  if(!D.users) D.users = [];
+  for(const seed of SEED_USERS){
+    const exists = D.users.find(u => u.id === seed.id);
+    if(!exists){
+      const hash = await sha256(seed.plainPass);
+      D.users.push({id:seed.id, username:seed.username, passHash:hash, role:seed.role, displayName:seed.displayName});
+    }
+  }
+  await saveDB();
+}
+
+function d(k){ return D[k] !== undefined ? D[k] : DEF[k]; }
+function isAdmin(){ return currentUser && currentUser.role === 'admin'; }
+
+/* ============================================================
+   TOAST
+============================================================ */
+function toast(msg, type=''){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (type ? ' '+type : '');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ============================================================
+   NAV
+============================================================ */
+function showPage(id, btn, closeMob){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+id)?.classList.add('active');
+  document.querySelectorAll('.nav-links button, .mob-menu button').forEach(b => b.classList.remove('active'));
+  const pages = ['home','prof','group','research','gw'];
+  const idx = pages.indexOf(id);
+  if(idx >= 0){
+    document.querySelectorAll('.nav-links button')[idx]?.classList.add('active');
+    document.querySelectorAll('.mob-menu button')[idx]?.classList.add('active');
+  }
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(closeMob) document.getElementById('mobMenu').style.display = 'none';
+}
+function toggleMob(){
+  const m = document.getElementById('mobMenu');
+  m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
+}
+function toggleDrop(id){
+  const b = document.getElementById(id), a = document.getElementById('arr-'+id);
+  if(!b) return;
+  const o = b.classList.toggle('open');
+  if(a) a.classList.toggle('open', o);
+}
+
+/* ============================================================
+   STATIC PAGES
+============================================================ */
+function openStaticPage(pageId, returnPage){
+  const pages = d('staticPages') || [];
+  const pg = pages.find(p => p.id === pageId);
+  if(!pg) return;
+  staticPageReturnPage = returnPage || 'home';
+  const el = document.getElementById('sp-content');
+  el.innerHTML = `
+    ${pg.photo ? `<img src="${esc(pg.photo)}" class="sp-hero-img" alt="${esc(pg.title)}" onerror="this.style.display='none'">` : ''}
+    <div class="sp-title">${esc(pg.title)}</div>
+    <div class="sp-meta">
+      ${pg.date   ? `<span>📅 ${esc(pg.date)}</span>` : ''}
+      ${pg.author ? `<span>✍️ ${esc(pg.author)}</span>` : ''}
+      ${pg.subtitle ? `<span style="color:var(--accent)">${esc(pg.subtitle)}</span>` : ''}
+    </div>
+    <div class="sp-body">${(pg.body||'').split('\n').filter(x=>x.trim()).map(p=>`<p>${esc(p)}</p>`).join('')}</div>`;
+  showPage('static');
+}
+function goBackFromStatic(){ showPage(staticPageReturnPage); }
+
+/* ============================================================
+   ANIMATION VIEWER
+============================================================ */
+function openAnimPage(idx){
+  const anims = (d('resources').animations) || [];
+  const anim = anims[idx]; if(!anim) return;
+  animReturnPage = 'gw';
+  document.getElementById('anim-viewer-title').textContent = anim.name;
+  document.getElementById('anim-viewer-badge').textContent = anim.type.toUpperCase() + ' · ' + anim.uploadedAt;
+  const container = document.getElementById('anim-viewer-container');
+  container.innerHTML = '';
+  if(anim.type === 'html' || anim.type === 'js'){
+    const iframe = document.createElement('iframe');
+    iframe.style.cssText = 'width:100%;height:calc(100vh - 120px);border:none;display:block;background:#000;';
+    iframe.sandbox = 'allow-scripts allow-same-origin';
+    container.appendChild(iframe);
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    const html = anim.type === 'html' ? anim.content
+      : `<!DOCTYPE html><html><body style="margin:0;background:#000;"><canvas id="c" style="display:block;width:100vw;height:100vh;"></canvas><script>${anim.content}<\/script></body></html>`;
+    doc.open(); doc.write(html); doc.close();
+  } else {
+    container.innerHTML = `<div style="padding:60px 40px;color:#9aafc7;max-width:700px;margin:0 auto;">
+      <div style="font-size:3rem;margin-bottom:16px;">🐍</div>
+      <h2 style="color:var(--accent);margin-bottom:12px;">${esc(anim.name)}</h2>
+      <p style="margin-bottom:16px;">Python script — run in your local environment.</p>
+      <div style="background:#0c1828;border:1px solid var(--border);border-radius:9px;padding:16px;margin-bottom:20px;">
+        <pre style="color:#9aafc7;font-size:.78rem;overflow-x:auto;white-space:pre-wrap;max-height:300px;overflow-y:auto;">${esc(anim.content.substring(0,2000))}${anim.content.length>2000?'\n…(truncated)':''}</pre>
+      </div>
+      <button class="btn-gold" onclick="downloadAnimFile(${idx})">⬇️ Download .py</button></div>`;
+  }
+  showPage('anim');
+}
+function goBackFromAnim(){ showPage(animReturnPage); }
+function downloadAnimFile(idx){
+  const anim = (d('resources').animations)||[]; const a = anim[idx]; if(!a) return;
+  const ext = a.type==='html'?'html':a.type==='js'?'js':'py';
+  const blob = new Blob([a.content],{type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const el = document.createElement('a'); el.href=url; el.download=a.name+(a.name.endsWith('.'+ext)?'':'.'+ext);
+  el.click(); URL.revokeObjectURL(url);
+}
+
+/* ============================================================
+   THEME
+============================================================ */
+(function(){
+  const btn=document.getElementById('themeToggle'), icon=document.getElementById('themeIcon'), lbl=document.getElementById('themeLabel');
+  try{ if(localStorage.getItem('theme')==='light'){ document.body.classList.add('light-theme'); icon.textContent='☀️'; lbl.textContent='Light'; } }catch(e){}
+  btn.addEventListener('click',()=>{
+    const l = document.body.classList.toggle('light-theme');
+    icon.textContent=l?'☀️':'🌙'; lbl.textContent=l?'Light':'Dark';
+    try{ localStorage.setItem('theme',l?'light':'dark'); }catch(e){}
+  });
+})();
+
+function copyEmail(e){
+  e.preventDefault();
+  navigator.clipboard.writeText('archanap@iitb.ac.in').then(()=>toast('Email copied!')).catch(()=>alert('archanap@iitb.ac.in'));
+}
+
+/* ============================================================
+   RENDER — HOME
+============================================================ */
+function renderHome(){
+  const pi = d('pi');
+  document.getElementById('pi-strip').innerHTML = `
+    <div style="flex:0 0 160px;max-width:160px;">
+      <div style="width:160px;height:160px;background:linear-gradient(160deg,#0c1828,#060c18);overflow:hidden;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--accent);">
+        <img src="${pi.photo}" alt="${pi.name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.parentNode.innerHTML='<span style=font-size:5rem>👩‍🔬</span>'"/>
+      </div>
+    </div>
+    <div style="flex:1;min-width:260px;">
+      <div style="font-size:.75rem;letter-spacing:1px;color:#7aa2ff;margin-bottom:4px;text-transform:uppercase;">Principal Investigator</div>
+      <h2 style="margin:0 0 6px;line-height:1.2;font-size:clamp(1.2rem,2.5vw,1.6rem);">${pi.name}</h2>
+      <div style="font-size:.9rem;opacity:.8;margin-bottom:10px;">${d('profPage').role}</div>
+      <p style="line-height:1.6;margin-bottom:14px;color:#9aafc7;font-size:.88rem;">${pi.bio}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
+        <a href="${d('profPage').inspire||'#'}" target="_blank">INSPIRE</a>
+        <a href="${d('profPage').scholar||'#'}" target="_blank">Google Scholar</a>
+        <a href="#" onclick="copyEmail(event)">Email</a>
+      </div>
+      <span style="cursor:pointer;font-weight:500;color:var(--accent);" onclick="showPage('prof',document.querySelectorAll('.nav-links button')[1])">Full Profile →</span>
+    </div>`;
+
+  const news = d('news'), nc = document.getElementById('news-cards-container');
+  nc.innerHTML = news && news.length ? news.map(n=>`
+    <div class="news-card">
+      <div class="news-card-date">${n.date||''}</div>
+      <h4>${n.title}</h4>
+      <p>${(n.body||'').substring(0,90)}${(n.body||'').length>90?'…':''}</p>
+      ${n.staticPageId?`<span class="rm" onclick="openStaticPage('${n.staticPageId}','home')">Read More →</span>`:(n.link?`<a href="${n.link}" target="_blank">Read More →</a>`:'')}
+    </div>`).join('') : `<p style="color:var(--muted);font-size:.85rem;padding:8px 0;">No news items yet.</p>`;
+
+  document.getElementById('home-focus-grid').innerHTML = d('researchAreas').slice(0,4).map(a=>
+    `<div class="tc"><h3>${a.icon} ${a.title}</h3><p>${a.desc}</p></div>`).join('');
+
+  const rmEl = document.getElementById('gw-readmore-link');
+  if(rmEl){ const rmId=d('gwReadMorePage');
+    rmEl.onclick = rmId?()=>openStaticPage(rmId,'home'):()=>showPage('gw',document.querySelectorAll('.nav-links button')[4]); }
+}
+
+/* ============================================================
+   RENDER — PROFILE  (Teaching removed; CV link after Interests)
+============================================================ */
+function renderProf(){
+  const p = d('profPage'), cv = d('piCV');
+
+  document.getElementById('prof-photo').src = p.photo;
+  document.getElementById('prof-photo').alt = p.name;
+  document.getElementById('prof-name').textContent  = p.name;
+  document.getElementById('prof-role').textContent  = p.role;
+  document.getElementById('prof-inst').textContent  = p.inst;
+  document.getElementById('prof-about').textContent = p.about;
+  document.getElementById('prof-inspire').href  = p.inspire||'#';
+  document.getElementById('prof-scholar').href  = p.scholar||'#';
+
+  // Header CV button
+  const cvBtn = document.getElementById('prof-cv-btn');
+  cvBtn.href = cv&&cv.url ? cv.url : '#';
+  cvBtn.style.display = cv&&cv.url ? '' : 'none';
+
+  // Interests
+  document.getElementById('interests-list').innerHTML = d('interests').map(i=>`<span class="itag">${i}</span>`).join('');
+
+  // CV banner below interests
+  const banner = document.getElementById('cv-banner');
+  const bannerBtn = document.getElementById('cv-banner-btn');
+  if(cv && cv.url){
+    banner.style.display = '';
+    bannerBtn.href = cv.url;
+  } else {
+    banner.style.display = 'none';
+  }
+
+  document.getElementById('positions-list').innerHTML = d('positions').map(p=>`<div class="cv-row"><div class="cv-yr">${p.yr}</div><div class="cv-d"><h4>${p.title}</h4><p>${p.org}</p></div></div>`).join('');
+  document.getElementById('contact-info').innerHTML = esc(d('contact')).replace(/\n/g,'<br/>');
+}
+
+/* ============================================================
+   RENDER — GROUP
+============================================================ */
+function renderGroup(){
+  document.getElementById('group-desc').textContent    = d('groupDesc');
+  document.getElementById('group-updated').textContent = d('groupUpdated');
+  const members = d('members');
+  function card(m){
+    const photo = m.photo ? `<img src="${m.photo}" onerror="this.style.display='none';this.parentNode.innerHTML='🧑‍🎓'">` : `<span style="font-size:2.5rem">🧑‍🎓</span>`;
+    const links = m.type==='current'
+      ? `${m.scholar?`<a href="${m.scholar}" target="_blank">Scholar</a> · `:''}${m.inspire?`<a href="${m.inspire}" target="_blank">INSPIRE</a>`:''}${m.web?`<br/><a href="${m.web}" target="_blank">Webpage →</a>`:''}`
+      : `${m.pos?`<p>${m.pos}</p>`:''}${m.web?`<a href="${m.web}" target="_blank">Webpage →</a>`:''}`;
+    return `<div class="mc"><div class="mc-photo">${photo}</div><div class="mbadge phd">${m.badge}</div><h4>${m.name}</h4>${links}</div>`;
+  }
+  document.getElementById('current-members').innerHTML = members.filter(m=>m.type==='current').map(card).join('');
+  document.getElementById('alumni-members').innerHTML  = members.filter(m=>m.type==='alumni').map(card).join('');
+}
+
+/* ============================================================
+   RENDER — RESEARCH
+============================================================ */
+function renderResearch(){
+  document.getElementById('research-areas').innerHTML = d('researchAreas').map(a=>
+    `<div class="tc"><h3>${a.icon} ${a.title}</h3><p>${a.desc}</p></div>`).join('');
+  document.getElementById('pub-list-group').innerHTML = d('pubsGroup').map(p=>
+    `<div class="pub"><div class="pub-yr">${p.yr}</div><h4>${p.title}</h4><p>${p.authors} · ${p.journal}</p><div class="pub-links">${p.doi?`<a class="pl" href="${p.doi}" target="_blank">Paper</a>`:''}</div></div>`).join('');
+  document.getElementById('pub-list-ligo').innerHTML = d('pubsLigo').map(p=>
+    `<div class="pub"><div class="pub-yr">${p.yr}</div><h4>${p.title}</h4><p>${p.authors} · ${p.journal}</p><div class="pub-links">${p.doi?`<a class="pl" href="${p.doi}" target="_blank">Paper</a>`:''}</div></div>`).join('');
+}
+
+/* ============================================================
+   RENDER — RESOURCES
+============================================================ */
+function renderResources(){
+  const res = d('resources');
+  const secs = [
+    {key:'books',label:'📚 Books'},
+    {key:'reviews',label:'📄 Review Articles'},
+    {key:'videos',label:'🎥 Video Lectures & Tutorials'},
+    {key:'popular',label:'🌟 Popular Articles & News'},
+    {key:'animations',label:'🎬 Animations & Interactive Demos'}
+  ];
+  document.getElementById('resources-sections').innerHTML = secs.map(s=>`
+    <div class="dropdown-section" style="margin-bottom:14px;">
+      <div class="dropdown-header" onclick="toggleDrop('res-${s.key}')"><h3>${s.label}</h3><span class="dropdown-arrow" id="arr-res-${s.key}">▼</span></div>
+      <div class="dropdown-body" id="res-${s.key}">
+        ${s.key==='animations' ? renderAnimationsSection(res.animations||[])
+          : `<div class="pub-list">${(res[s.key]||[]).map(item=>`<div class="pub" style="padding:14px 18px;"><h4 style="font-size:.88rem;">${item.title}</h4><p>${item.authors||''}</p><div class="pub-links">${item.url?`<a class="pl" href="${item.url}" target="_blank">Open</a>`:''}</div></div>`).join('')}</div>`}
+      </div>
+    </div>`).join('');
+}
+
+function renderAnimationsSection(anims){
+  if(!anims.length) return `<p style="color:var(--muted);font-size:.83rem;padding:8px 0;">No animations uploaded yet.</p>`;
+  return `<div class="anim-grid">${anims.map((a,i)=>`
+    <div class="anim-card" onclick="openAnimPage(${i})">
+      <span class="anim-type-badge ${a.type}">${a.type.toUpperCase()}</span>
+      <h4>${esc(a.name)}</h4>
+      <p style="margin-bottom:28px;">${esc(a.description||'')}</p>
+      <p style="font-size:.7rem;color:var(--muted);">${a.uploadedAt||''}</p>
+      <button class="anim-play-btn" onclick="event.stopPropagation();openAnimPage(${i})">▶ Open</button>
+    </div>`).join('')}</div>`;
+}
+
+function renderAll(){ renderHome(); renderProf(); renderGroup(); renderResearch(); renderResources(); }
+
+/* ============================================================
+   DASHBOARD SECTIONS CONFIG
+============================================================ */
+const ALL_SECTIONS = [
+  {id:'dashboard',icon:'🏠',label:'Dashboard'},
+  {id:'news',icon:'📢',label:'News'},
+  {id:'pi',icon:'👩‍🔬',label:'PI Info'},
+  {id:'profile',icon:'📋',label:'Profile'},
+  {id:'group',icon:'👥',label:'Group'},
+  {id:'research',icon:'🔬',label:'Research'},
+  {id:'publications',icon:'📄',label:'Publications'},
+  {id:'resources',icon:'📚',label:'Resources'},
+  {id:'animations',icon:'🎬',label:'Animations'},
+  {id:'picv',icon:'📑',label:'PI CV'},
+  {id:'pages',icon:'📝',label:'Pages'},
+  {id:'users',icon:'👤',label:'Users'},
+  {id:'settings',icon:'⚙️',label:'Settings'}
+];
+const VIEWER_SECTIONS = ['dashboard'];
+
+function getAvailableSections(){ return isAdmin() ? ALL_SECTIONS : ALL_SECTIONS.filter(s=>VIEWER_SECTIONS.includes(s.id)); }
+
+function buildDashTabs(){
+  document.getElementById('dash-section-tabs').innerHTML = getAvailableSections().map(s=>
+    `<button class="${s.id===currentDashSection?'active':''}" onclick="switchDash('${s.id}')">${s.icon} ${s.label}</button>`).join('');
+}
+
+function switchDash(id){
+  if(!isAdmin() && !VIEWER_SECTIONS.includes(id)){ toast('Admin access required','error'); return; }
+  currentDashSection = id;
+  document.getElementById('dash-section-title').textContent = ALL_SECTIONS.find(s=>s.id===id)?.label||'';
+  buildDashTabs(); buildDashContent(id);
+}
+
+function buildDashContent(id){
+  if(!isAdmin() && !VIEWER_SECTIONS.includes(id)){
+    document.getElementById('dash-main').innerHTML = `<div style="padding:40px;text-align:center;color:var(--muted);"><div style="font-size:3rem;margin-bottom:16px;">🔒</div><h2>Admin Access Required</h2></div>`;
+    return;
+  }
+  const map = {
+    dashboard:buildDashOverview, pi:buildDashPI, profile:buildDashProfile,
+    news:buildDashNews, group:buildDashGroup, research:buildDashResearch,
+    publications:buildDashPublications, resources:buildDashResources,
+    animations:buildDashAnimations, picv:buildDashPICV,
+    pages:buildDashPages, users:buildDashUsers, settings:buildDashSettings
+  };
+  document.getElementById('dash-main').innerHTML = (map[id]||buildDashOverview)();
+}
+
+/* ============================================================
+   UNIFIED TAB SYSTEM
+============================================================ */
+function switchTab(groupId, tabId){
+  const container = document.getElementById(groupId); if(!container) return;
+  container.querySelectorAll('.dash-tab').forEach(b=>{
+    b.classList.remove('active');
+    const panel = document.getElementById(b.getAttribute('data-tab'));
+    if(panel) panel.classList.remove('active');
+  });
+  container.querySelector(`[data-tab="${tabId}"]`)?.classList.add('active');
+  document.getElementById(tabId)?.classList.add('active');
+  _activeTab[groupId] = tabId;
+}
+function tabBar(groupId, tabs){
+  const first = _activeTab[groupId] || tabs[0]?.id;
+  return `<div class="dash-tabs" id="${groupId}">${tabs.map(t=>`<button class="dash-tab${t.id===first?' active':''}" data-tab="${t.id}" onclick="switchTab('${groupId}','${t.id}')">${t.label}</button>`).join('')}</div>`;
+}
+function tabPanels(tabs, groupId){
+  const first = _activeTab[groupId] || tabs[0]?.id;
+  return tabs.map(t=>`<div id="${t.id}" class="dash-tab-panel${t.id===first?' active':''}">${t.content}</div>`).join('');
+}
+
+/* ============================================================
+   DASH — OVERVIEW
+============================================================ */
+function buildDashOverview(){
+  const secs = isAdmin() ? ALL_SECTIONS.filter(s=>s.id!=='dashboard') : [];
+  return `<h1>Dashboard</h1>
+  <p class="sub">Logged in as <strong>${currentUser.displayName}</strong> (${currentUser.role}). ${isAdmin()?'Full admin access.':'Read-only.'}</p>
+  ${isAdmin()?`<div class="dash-grid">${secs.map(s=>`<div class="dash-card" onclick="switchDash('${s.id}')"><div class="dc-icon">${s.icon}</div><h3>${s.label}</h3><p>Edit content</p></div>`).join('')}</div>`:
+  `<p style="color:var(--muted);font-size:.88rem;">Contact admin for editing access.</p>`}`;
+}
+
+/* ============================================================
+   DASH — NEWS
+============================================================ */
+function buildDashNews(){
+  const news = d('news'), pages = d('staticPages')||[];
+  return `<h1>📢 News</h1><p class="sub">Manage homepage news items.</p>
+  <button class="btn-add" onclick="openSubModal('news-add',{})">+ Add News Item</button>
+  ${news.length?news.map((n,i)=>`
+    <div class="list-item">
+      <div class="list-item-main"><h4>${n.title}</h4><p>${n.date||''} · ${(n.body||'').substring(0,55)}...</p></div>
+      <div class="list-item-actions">
+        <button class="btn-sm primary" onclick="openSubModal('news-edit',{idx:${i}})">Edit</button>
+        <button class="btn-sm danger" onclick="delNews(${i})">Delete</button>
+      </div>
+    </div>`).join(''):`<p style="color:var(--muted);font-size:.8rem;">No news items yet.</p>`}`;
+}
+
+/* ============================================================
+   DASH — PI INFO
+============================================================ */
+function buildDashPI(){
+  const pi = d('pi');
+  return `<h1>👩‍🔬 Principal Investigator</h1><p class="sub">Homepage PI strip info.</p>
+  <div class="form-group"><label>Full Name</label><input id="f-pi-name" value="${esc(pi.name)}"></div>
+  <div class="form-group"><label>Photo URL</label><input id="f-pi-photo" value="${esc(pi.photo)}"></div>
+  <div class="form-group"><label>Bio</label><textarea id="f-pi-bio">${esc(pi.bio)}</textarea></div>
+  <div class="form-actions"><button class="btn-save" onclick="savePI()">💾 Save</button></div>`;
+}
+async function savePI(){
+  D.pi = {name:fv('f-pi-name'),photo:fv('f-pi-photo'),bio:fv('f-pi-bio')};
+  if(!D.profPage) D.profPage = JSON.parse(JSON.stringify(DEF.profPage));
+  D.profPage.name = D.pi.name; D.profPage.photo = D.pi.photo; D.profPage.about = D.pi.bio;
+  await saveDB(); renderAll(); toast('PI info saved!');
+}
+
+/* ============================================================
+   DASH — PROFILE  (Teaching tab removed)
+============================================================ */
+function buildDashProfile(){
+  const p = d('profPage');
+  delete _activeTab['profile-tabs'];
+  const tabDefs = [
+    {id:'ptab-header',label:'Header',content:`
+      <div class="form-row">
+        <div class="form-group"><label>Name</label><input id="f-prof-name" value="${esc(p.name)}"></div>
+        <div class="form-group"><label>Role</label><input id="f-prof-role" value="${esc(p.role)}"></div>
+      </div>
+      <div class="form-group"><label>Institution</label><input id="f-prof-inst" value="${esc(p.inst)}"></div>
+      <div class="form-group"><label>Photo URL</label><input id="f-prof-photo" value="${esc(p.photo)}"></div>
+      <div class="form-row">
+        <div class="form-group"><label>INSPIRE URL</label><input id="f-prof-inspire" value="${esc(p.inspire||'')}"></div>
+        <div class="form-group"><label>Google Scholar URL</label><input id="f-prof-scholar" value="${esc(p.scholar||'')}"></div>
+      </div>
+      <div class="form-group"><label>About / Bio</label><textarea id="f-prof-about">${esc(p.about)}</textarea></div>
+      <div class="form-actions"><button class="btn-save" onclick="saveProfHeader()">💾 Save</button></div>`},
+    {id:'ptab-interests',label:'Interests',content:`
+      <p style="color:var(--muted);font-size:.8rem;margin-bottom:10px;">One per line. The CV link banner appears automatically below these when a CV is uploaded.</p>
+      <div class="form-group"><textarea id="f-interests" style="min-height:140px">${d('interests').join('\n')}</textarea></div>
+      <div class="form-actions"><button class="btn-save" onclick="saveInterests()">💾 Save</button></div>`},
+    {id:'ptab-positions',label:'Positions',content:`
+      <button class="btn-add" onclick="openSubModal('cv-add',{key:'positions'})">+ Add Position</button>
+      <div id="positions-dash-list">${buildCVList('positions')}</div>`},
+    
+    {id:'ptab-contact',label:'Contact',content:`
+      <div class="form-group"><label>Contact Info</label><textarea id="f-contact" style="min-height:100px">${esc(d('contact'))}</textarea></div>
+      <div class="form-actions"><button class="btn-save" onclick="saveContact()">💾 Save</button></div>`}
+  ];
+  return `<h1>📋 Profile Page</h1><p class="sub">Edit profile page content.</p>
+    ${tabBar('profile-tabs', tabDefs)}${tabPanels(tabDefs,'profile-tabs')}`;
+}
+
+function buildCVList(key){
+  const arr = d(key);
+  if(!arr.length) return `<p style="color:var(--muted);font-size:.8rem;">No entries yet.</p>`;
+  return arr.map((item,i)=>`
+    <div class="list-item">
+      <div class="list-item-main"><h4>${item.title}</h4><p>${item.yr} · ${item.org}</p></div>
+      <div class="list-item-actions">
+        <button class="btn-sm primary" onclick="openSubModal('cv-edit',{key:'${key}',idx:${i}})">Edit</button>
+        <button class="btn-sm danger" onclick="delCV('${key}',${i})">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+async function saveProfHeader(){
+  if(!D.profPage) D.profPage = JSON.parse(JSON.stringify(DEF.profPage));
+  Object.assign(D.profPage,{name:fv('f-prof-name'),role:fv('f-prof-role'),inst:fv('f-prof-inst'),photo:fv('f-prof-photo'),inspire:fv('f-prof-inspire'),scholar:fv('f-prof-scholar'),about:fv('f-prof-about')});
+  D.pi = {...d('pi'),name:D.profPage.name,photo:D.profPage.photo,bio:D.profPage.about};
+  await saveDB(); renderAll(); toast('Profile header saved!');
+}
+async function saveInterests(){ D.interests = document.getElementById('f-interests').value.split('\n').map(x=>x.trim()).filter(Boolean); await saveDB(); renderProf(); toast('Saved!'); }
+async function saveLines(key){ D[key] = document.getElementById('f-'+key).value.split('\n').map(x=>x.trim()).filter(Boolean); await saveDB(); renderProf(); toast('Saved!'); }
+async function saveContact(){ D.contact = document.getElementById('f-contact').value; await saveDB(); renderProf(); toast('Saved!'); }
+
+/* ============================================================
+   DASH — GROUP
+============================================================ */
+function buildDashGroup(){
+  const members = d('members'), cur=members.filter(m=>m.type==='current'), alum=members.filter(m=>m.type==='alumni');
+  return `<h1>👥 Group Members</h1><p class="sub">Manage members and alumni.</p>
+  <div class="form-group"><label>Group Description</label><textarea id="f-grpdesc" style="min-height:75px">${esc(d('groupDesc'))}</textarea></div>
+  <div class="form-group"><label>Last Updated Text</label><input id="f-grpupdated" value="${esc(d('groupUpdated'))}"></div>
+  <div class="form-actions" style="margin-bottom:24px;"><button class="btn-save" onclick="saveGroupMeta()">💾 Save Description</button></div>
+  <div class="sec-divider">Current Members (${cur.length})</div>
+  <button class="btn-add" onclick="openSubModal('member-add',{mtype:'current'})">+ Add Member</button>
+  <div>${members.map((m,i)=>m.type!=='current'?'':buildMemberListItem(m,i)).join('')}</div>
+  <div class="sec-divider" style="margin-top:24px;">Alumni (${alum.length})</div>
+  <button class="btn-add" onclick="openSubModal('member-add',{mtype:'alumni'})">+ Add Alumni</button>
+  <div>${members.map((m,i)=>m.type!=='alumni'?'':buildMemberListItem(m,i)).join('')}</div>`;
+}
+function buildMemberListItem(m,i){
+  return `<div class="list-item">
+    <div style="width:36px;height:36px;border-radius:50%;background:#0d1a30;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">
+      ${m.photo?`<img src="${m.photo}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">`:'🧑‍🎓'}
+    </div>
+    <div class="list-item-main"><h4>${m.name}</h4><p>${m.badge}${m.pos?' · '+m.pos:''}</p></div>
+    <div class="list-item-actions">
+      <button class="btn-sm primary" onclick="openSubModal('member-edit',{idx:${i}})">Edit</button>
+      <button class="btn-sm danger" onclick="delMember(${i})">Delete</button>
+    </div>
+  </div>`;
+}
+async function saveGroupMeta(){
+  D.groupDesc=document.getElementById('f-grpdesc').value;
+  D.groupUpdated=document.getElementById('f-grpupdated').value;
+  await saveDB(); renderGroup(); toast('Saved!');
+}
+
+/* ============================================================
+   DASH — RESEARCH
+============================================================ */
+function buildDashResearch(){
+  const areas = d('researchAreas');
+  return `<h1>🔬 Research Areas</h1><p class="sub">Add/edit/remove research topic cards.</p>
+  <button class="btn-add" onclick="openSubModal('area-add',{})">+ Add Research Area</button>
+  ${areas.map((a,i)=>`
+    <div class="list-item">
+      <div style="font-size:1.4rem;width:32px;text-align:center;">${a.icon}</div>
+      <div class="list-item-main"><h4>${a.title}</h4><p>${(a.desc||'').substring(0,65)}...</p></div>
+      <div class="list-item-actions">
+        <button class="btn-sm primary" onclick="openSubModal('area-edit',{idx:${i}})">Edit</button>
+        <button class="btn-sm danger" onclick="delResearchArea(${i})">Delete</button>
+      </div>
+    </div>`).join('')}`;
+}
+
+/* ============================================================
+   DASH — PUBLICATIONS
+============================================================ */
+function buildDashPublications(){
+  const grp=d('pubsGroup'), ligo=d('pubsLigo');
+  delete _activeTab['pub-tabs'];
+  const tabDefs=[
+    {id:'pubtab-group',label:`Group (${grp.length})`,content:`
+      <button class="btn-add" onclick="openSubModal('pub-add',{cat:'group'})">+ Add</button>
+      ${grp.map((p,i)=>`<div class="list-item"><div class="list-item-main"><h4>${(p.title||'').substring(0,75)}</h4><p>${p.yr} · ${(p.authors||'').substring(0,45)}</p></div><div class="list-item-actions"><button class="btn-sm primary" onclick="openSubModal('pub-edit',{cat:'group',idx:${i}})">Edit</button><button class="btn-sm danger" onclick="delPub('group',${i})">Delete</button></div></div>`).join('')||`<p style="color:var(--muted);font-size:.8rem;">None yet.</p>`}`},
+    {id:'pubtab-ligo',label:`LIGO (${ligo.length})`,content:`
+      <button class="btn-add" onclick="openSubModal('pub-add',{cat:'ligo'})">+ Add</button>
+      ${ligo.map((p,i)=>`<div class="list-item"><div class="list-item-main"><h4>${(p.title||'').substring(0,75)}</h4><p>${p.yr} · ${(p.authors||'').substring(0,45)}</p></div><div class="list-item-actions"><button class="btn-sm primary" onclick="openSubModal('pub-edit',{cat:'ligo',idx:${i}})">Edit</button><button class="btn-sm danger" onclick="delPub('ligo',${i})">Delete</button></div></div>`).join('')||`<p style="color:var(--muted);font-size:.8rem;">None yet.</p>`}`}
+  ];
+  return `<h1>📄 Publications</h1><p class="sub">Manage publications.</p>${tabBar('pub-tabs',tabDefs)}${tabPanels(tabDefs,'pub-tabs')}`;
+}
+
+/* ============================================================
+   DASH — RESOURCES
+============================================================ */
+function buildDashResources(){
+  const res=d('resources');
+  const secs=[{key:'books',label:'📚 Books'},{key:'reviews',label:'📄 Reviews'},{key:'videos',label:'🎥 Videos'},{key:'popular',label:'🌟 Popular Articles & News'}];
+  delete _activeTab['res-tabs'];
+  const tabDefs=secs.map(s=>({
+    id:'restab-'+s.key,
+    label:s.label+' ('+(res[s.key]||[]).length+')',
+    content:`<button class="btn-add" onclick="openSubModal('res-add',{key:'${s.key}'})">+ Add</button>
+      ${(res[s.key]||[]).map((item,j)=>`<div class="list-item"><div class="list-item-main"><h4>${item.title}</h4><p>${item.authors||''}</p></div><div class="list-item-actions"><button class="btn-sm primary" onclick="openSubModal('res-edit',{key:'${s.key}',idx:${j}})">Edit</button><button class="btn-sm danger" onclick="delRes('${s.key}',${j})">Delete</button></div></div>`).join('')||`<p style="color:var(--muted);font-size:.8rem;">None yet.</p>`}`
+  }));
+  return `<h1>📚 Resources</h1><p class="sub">Manage resource links.</p>${tabBar('res-tabs',tabDefs)}${tabPanels(tabDefs,'res-tabs')}`;
+}
+
+/* ============================================================
+   DASH — ANIMATIONS
+============================================================ */
+function buildDashAnimations(){
+  const anims=(d('resources').animations)||[];
+  return `<h1>🎬 Animations</h1>
+  <p class="sub">Upload HTML, JS, or Python animation files.</p>
+  <div style="background:rgba(232,201,126,.04);border:1px solid rgba(232,201,126,.15);border-radius:10px;padding:16px 18px;margin-bottom:20px;font-size:.82rem;color:var(--muted);">
+    <strong style="color:var(--accent);">Supported:</strong>
+    <strong style="color:#ff9060;">HTML</strong> · <strong style="color:#ffdc32;">JS</strong> · <strong style="color:#50b4ff;">Python (.py)</strong>
+  </div>
+  <button class="btn-add" onclick="openSubModal('anim-upload',{})">⬆️ Upload Animation File</button>
+  ${anims.length?anims.map((a,i)=>`
+    <div class="list-item">
+      <span class="anim-type-badge ${a.type}" style="flex-shrink:0;">${a.type.toUpperCase()}</span>
+      <div class="list-item-main"><h4>${esc(a.name)}</h4><p>${esc(a.description||'')} · ${a.uploadedAt||''}</p></div>
+      <div class="list-item-actions">
+        <button class="btn-sm" onclick="openAnimPage(${i});closeDash()">Preview</button>
+        <button class="btn-sm primary" onclick="openSubModal('anim-edit',{idx:${i}})">Edit Info</button>
+        <button class="btn-sm danger" onclick="delAnim(${i})">Delete</button>
+      </div>
+    </div>`).join(''):`<p style="color:var(--muted);font-size:.8rem;">No animations yet.</p>`}`;
+}
+
+/* ============================================================
+   DASH — PI CV
+============================================================ */
+function buildDashPICV(){
+  const cv=d('piCV');
+  return `<h1>📑 PI Curriculum Vitae</h1>
+  <p class="sub">Upload a PDF or paste a URL. The "See CV to Know More" link on the Profile page updates automatically.</p>
+  ${cv&&cv.url?`<div class="cv-current"><span style="font-size:1.2rem;">📄</span><p><strong>Current:</strong> ${cv.fileName?esc(cv.fileName):'External URL'}</p><a href="${esc(cv.url)}" target="_blank" class="btn-sm primary">View</a></div>`:`<div style="color:var(--muted);font-size:.82rem;margin-bottom:16px;">No CV set yet.</div>`}
+  <div class="sec-divider">Option 1 — Upload PDF</div>
+  <div class="cv-upload-area" onclick="document.getElementById('cv-file-input').click()">
+    <p>Click to choose a PDF file</p>
+    <button class="btn-ghost" style="margin-top:8px;" onclick="event.stopPropagation();document.getElementById('cv-file-input').click()">📂 Choose PDF</button>
+  </div>
+  <input type="file" id="cv-file-input" accept=".pdf,application/pdf" style="display:none;" onchange="handleCVUpload(event)">
+  <div id="cv-upload-status" style="font-size:.8rem;color:var(--accent);margin-bottom:16px;display:none;"></div>
+  <div class="sec-divider">Option 2 — Direct URL</div>
+  <div class="form-group"><label>PDF URL</label><input id="f-cv-url" value="${esc(cv?.url||'')}" placeholder="https://drive.google.com/file/d/.../view"></div>
+  <div class="form-group"><label>Display Name (optional)</label><input id="f-cv-name" value="${esc(cv?.fileName||'')}" placeholder="Prof_Archana_Pai_CV.pdf"></div>
+  <div class="form-actions">
+    <button class="btn-save" onclick="saveCVUrl()">💾 Save CV URL</button>
+    ${cv&&cv.url?`<button class="btn-danger" onclick="clearCV()">🗑️ Remove CV</button>`:''}
+  </div>`;
+}
+
+async function handleCVUpload(event){
+  const file=event.target.files[0]; if(!file) return;
+  if(file.type!=='application/pdf'&&!file.name.endsWith('.pdf')){ toast('Only PDF files','error'); return; }
+  const status=document.getElementById('cv-upload-status');
+  status.textContent='⏳ Reading…'; status.style.display='';
+  const reader=new FileReader();
+  reader.onload=async(e)=>{ if(!D.piCV) D.piCV={};
+    D.piCV.url=e.target.result; D.piCV.fileName=file.name;
+    await saveDB(); renderProf(); status.textContent=`✅ ${file.name}`; buildDashContent('picv'); toast('CV uploaded!'); };
+  reader.onerror=()=>{ status.textContent='❌ Failed'; toast('Read error','error'); };
+  reader.readAsDataURL(file);
+}
+async function saveCVUrl(){
+  const url=fv('f-cv-url'); if(!url){ toast('Enter a URL','error'); return; }
+  if(!D.piCV) D.piCV={};
+  D.piCV.url=url; D.piCV.fileName=fv('f-cv-name');
+  await saveDB(); renderProf(); buildDashContent('picv'); toast('CV URL saved!');
+}
+async function clearCV(){ if(!confirm('Remove CV link?')) return; D.piCV={url:'',fileName:''}; await saveDB(); renderProf(); buildDashContent('picv'); toast('CV removed'); }
+
+/* ============================================================
+   DASH — PAGES
+============================================================ */
+function buildDashPages(){
+  const pages=d('staticPages')||[], rmId=d('gwReadMorePage')||'';
+  const pageOpts=pages.map(p=>`<option value="${p.id}"${rmId===p.id?' selected':''}>${p.title}</option>`).join('');
+  return `<h1>📝 Static Pages</h1><p class="sub">Create/edit rich content pages.</p>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:20px;">
+    <div style="font-size:.8rem;font-weight:700;color:var(--accent);margin-bottom:10px;">🔗 GW "Read More" Link</div>
+    <select id="f-gwrm"><option value="">Default Resources page</option>${pageOpts}</select>
+    <div class="form-actions" style="margin-top:12px;"><button class="btn-save" onclick="saveGWReadMore()">💾 Save</button></div>
+  </div>
+  <button class="btn-add" onclick="openSubModal('page-add',{})">+ Create Page</button>
+  ${pages.map((pg,i)=>`
+    <div class="list-item">
+      <div class="list-item-main"><h4>${pg.title}</h4><p>ID: ${pg.id} · ${pg.date||''}</p></div>
+      <div class="list-item-actions">
+        <button class="btn-sm" onclick="openStaticPage('${pg.id}','home');closeDash()">Preview</button>
+        <button class="btn-sm primary" onclick="openSubModal('page-edit',{idx:${i}})">Edit</button>
+        <button class="btn-sm danger" onclick="delPage(${i})">Delete</button>
+      </div>
+    </div>`).join('')||`<p style="color:var(--muted);font-size:.8rem;">No pages yet.</p>`}`;
+}
+async function saveGWReadMore(){ D.gwReadMorePage=document.getElementById('f-gwrm').value; await saveDB(); renderHome(); toast('Saved!'); }
+
+/* ============================================================
+   DASH — USERS
+============================================================ */
+function buildDashUsers(){
+  const users=d('users');
+  return `<h1>👤 User Management</h1>
+  <button class="btn-add" onclick="openSubModal('user-add',{})">+ Add User</button>
+  ${users.map((u,i)=>`
+    <div class="user-row">
+      <div class="user-avatar">${u.displayName?.[0]||'?'}</div>
+      <div class="user-info"><h4>${u.displayName} <span class="role-badge ${u.role}">${u.role}</span></h4><p>@${u.username}</p></div>
+      <div style="display:flex;gap:5px;">
+        ${['admin','archana','sagar'].includes(u.id)
+          ? `<span style="font-size:.74rem;color:var(--muted);">Protected</span>`
+          : `<button class="btn-sm primary" onclick="openSubModal('user-edit',{idx:${i}})">Edit</button>
+             <button class="btn-sm danger" onclick="delUser(${i})">Delete</button>`}
+      </div>
+    </div>`).join('')}`;
+}
+
+/* ============================================================
+   DASH — SETTINGS
+============================================================ */
+function buildDashSettings(){
+  return `<h1>⚙️ Settings</h1><p class="sub">Change password and manage site data.</p>
+  <div class="sec-divider">Change My Password</div>
+  <div class="form-group"><label>Current Password</label><input type="password" id="f-old-pass" autocomplete="current-password"></div>
+  <div class="form-row">
+    <div class="form-group"><label>New Password</label><input type="password" id="f-new-pass" autocomplete="new-password"></div>
+    <div class="form-group"><label>Confirm</label><input type="password" id="f-conf-pass" autocomplete="new-password"></div>
+  </div>
+  <div class="form-actions"><button class="btn-save" onclick="changePass()">🔑 Change Password</button></div>
+  <div class="sec-divider" style="margin-top:28px;">Danger Zone</div>
+  <p style="color:var(--muted);font-size:.82rem;margin-bottom:12px;">Reset all content to defaults. Cannot be undone.</p>
+  <button class="btn-danger" onclick="resetAll()">⚠️ Reset All Content</button>`;
+}
+async function changePass(){
+  const o=document.getElementById('f-old-pass').value;
+  const n=document.getElementById('f-new-pass').value;
+  const c=document.getElementById('f-conf-pass').value;
+  if(!n){ toast('New password empty','error'); return; }
+  if(n!==c){ toast('Passwords do not match','error'); return; }
+  const oHash = await sha256(o);
+  const users=d('users'), u=users.find(u=>u.id===currentUser.id);
+  if(!u||oHash!==u.passHash){ toast('Wrong current password','error'); return; }
+  if(!D.users) D.users=JSON.parse(JSON.stringify(DEF.users));
+  const idx=D.users.findIndex(u=>u.id===currentUser.id);
+  if(idx>=0) D.users[idx].passHash = await sha256(n);
+  await saveDB(); toast('Password changed!');
+}
+async function resetAll(){
+  if(!confirm('Reset ALL content to defaults?')) return;
+  D=JSON.parse(JSON.stringify(DEF)); D.users=[];
+  await ensureBuiltinUsers(); renderAll(); toast('Reset!'); buildDashContent(currentDashSection);
+}
+
+/* ============================================================
+   MODAL
+============================================================ */
+function openSubModal(type, data){
+  data = data || {};
+  document.getElementById('sub-modal').classList.remove('hidden');
+  const title=document.getElementById('sub-modal-title');
+  const body=document.getElementById('sub-modal-body');
+  document.getElementById('sub-modal-save').style.display='';
+
+  /* ----- LOGIN ----- */
+  if(type==='login'){
+    title.textContent='🔐 Login to Dashboard';
+    body.innerHTML=`
+      <div class="form-group"><label>Username</label><input id="sm-uname" autocomplete="username"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="sm-pass" autocomplete="current-password" onkeydown="if(event.key==='Enter')subModalSave()"></div>`;
+    document.getElementById('sub-modal-save').textContent='Login';
+    subModalHandler = async () => {
+      const uname=document.getElementById('sm-uname').value.trim();
+      const pass=document.getElementById('sm-pass').value;
+      const hash=await sha256(pass);
+      const users=d('users');
+      const u=users.find(u=>u.username===uname && u.passHash===hash);
+      if(u){
+        currentUser=u; closeSubModal();
+        document.getElementById('admin-trigger-btn').textContent='⚙️ Dashboard';
+        document.getElementById('dash-user-label').textContent=`${u.displayName} (${u.role})`;
+        document.getElementById('dash-overlay').classList.add('open');
+        currentDashSection='dashboard'; buildDashTabs(); buildDashContent('dashboard');
+        toast(`Welcome, ${u.displayName}!`);
+      } else { toast('Invalid username or password','error'); }
+    }; return;
+  }
+
+  /* ----- ANIM UPLOAD ----- */
+  if(type==='anim-upload'){
+    title.textContent='⬆️ Upload Animation File';
+    document.getElementById('sub-modal-save').style.display='none';
+    body.innerHTML=`
+      <div style="margin-bottom:14px;font-size:.82rem;color:var(--muted);">Select an HTML, .js, or .py file.</div>
+      <div class="form-group"><label>Name</label><input id="sm-anim-name" placeholder="My GW Animation"></div>
+      <div class="form-group"><label>Description (optional)</label><input id="sm-anim-desc"></div>
+      <div class="form-group"><label>File (.html / .js / .py)</label>
+        <input type="file" id="sm-anim-file" accept=".html,.htm,.js,.py" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:7px;width:100%;">
+      </div>
+      <div id="sm-anim-status" style="font-size:.8rem;color:var(--accent);margin-top:8px;"></div>
+      <div class="form-actions" style="margin-top:16px;">
+        <button class="btn-save" onclick="doAnimUpload()">⬆️ Upload</button>
+        <button class="btn-cancel" onclick="closeSubModal()">Cancel</button>
+      </div>`; return;
+  }
+
+  /* ----- ANIM EDIT ----- */
+  if(type==='anim-edit'){
+    const anim=(d('resources').animations||[])[data.idx];
+    title.textContent='Edit Animation Info';
+    body.innerHTML=`
+      <div class="form-group"><label>Name</label><input id="sm-anim-name" value="${esc(anim.name||'')}"></div>
+      <div class="form-group"><label>Description</label><input id="sm-anim-desc" value="${esc(anim.description||'')}"></div>`;
+    subModalHandler=async()=>{
+      if(!D.resources) D.resources=JSON.parse(JSON.stringify(DEF.resources));
+      if(!D.resources.animations) D.resources.animations=[];
+      D.resources.animations[data.idx].name=smv('sm-anim-name');
+      D.resources.animations[data.idx].description=smv('sm-anim-desc');
+      await saveDB(); renderResources(); buildDashContent('animations'); closeSubModal(); toast('Updated!');
+    }; return;
+  }
+
+  /* ----- USER ADD/EDIT ----- */
+  if(type==='user-add'||type==='user-edit'){
+    const item=type==='user-edit'?d('users')[data.idx]:{};
+    title.textContent=type==='user-add'?'Add User':'Edit User';
+    body.innerHTML=`
+      <div class="form-row">
+        <div class="form-group"><label>Display Name</label><input id="sm-dname" value="${esc(item.displayName||'')}"></div>
+        <div class="form-group"><label>Username</label><input id="sm-uname" value="${esc(item.username||'')}"></div>
+      </div>
+      <div class="form-group"><label>Password${type==='user-edit'?' (blank = keep current)':''}</label><input type="password" id="sm-upass" autocomplete="new-password"></div>
+      <div class="form-group"><label>Role</label>
+        <select id="sm-role">
+          <option value="admin"${item.role==='admin'?' selected':''}>Admin (full editing)</option>
+          <option value="viewer"${item.role==='viewer'?' selected':''}>Viewer (read-only)</option>
+        </select>
+      </div>`;
+    subModalHandler=async()=>{
+      if(!D.users) D.users=JSON.parse(JSON.stringify(DEF.users));
+      const uname=smv('sm-uname'), dname=smv('sm-dname'), pass=document.getElementById('sm-upass').value, role=smv('sm-role');
+      if(!uname||!dname){ toast('Name and username required','error'); return; }
+      if(type==='user-add'){
+        if(!pass){ toast('Password required','error'); return; }
+        if(D.users.find(u=>u.username===uname)){ toast('Username already exists','error'); return; }
+        const hash=await sha256(pass);
+        D.users.push({id:'u_'+Date.now(), username:uname, passHash:hash, role, displayName:dname});
+      } else {
+        const u=D.users[data.idx];
+        u.displayName=dname; u.username=uname; u.role=role;
+        if(pass) u.passHash=await sha256(pass);
+      }
+      await saveDB(); buildDashContent('users'); closeSubModal(); toast('Saved!');
+    }; return;
+  }
+
+  /* ----- CV ADD/EDIT ----- */
+  if(type==='cv-add'||type==='cv-edit'){
+    const key=data.key, item=type==='cv-edit'?d(key)[data.idx]:{};
+    title.textContent=(type==='cv-add'?'Add ':'Edit ')+(key==='positions'?'Position':'Education');
+    body.innerHTML=`
+      <div class="form-group"><label>Year Range</label><input id="sm-yr" value="${esc(item.yr||'')}"></div>
+      <div class="form-group"><label>Title / Degree</label><input id="sm-title" value="${esc(item.title||'')}"></div>
+      <div class="form-group"><label>Organisation</label><input id="sm-org" value="${esc(item.org||'')}"></div>`;
+    subModalHandler=async()=>{
+      const arr=[...d(key)], o={yr:smv('sm-yr'),title:smv('sm-title'),org:smv('sm-org')};
+      if(type==='cv-add') arr.push(o); else arr[data.idx]=o;
+      D[key]=arr; await saveDB(); renderProf();
+      refreshEl(key==='positions'?'positions-dash-list':'edu-dash-list',buildCVList(key));
+      closeSubModal(); toast('Saved!');
+    }; return;
+  }
+
+  /* ----- NEWS ----- */
+  if(type==='news-add'||type==='news-edit'){
+    const item=type==='news-edit'?d('news')[data.idx]:{}, pages=d('staticPages')||[];
+    title.textContent=type==='news-add'?'Add News':'Edit News';
+    body.innerHTML=`
+      <div class="form-group"><label>Date (dd-mm-yyyy)</label><input id="sm-date" value="${esc(item.date||'')}"></div>
+      <div class="form-group"><label>Title</label><input id="sm-title" value="${esc(item.title||'')}"></div>
+      <div class="form-group"><label>Body</label><textarea id="sm-body">${esc(item.body||'')}</textarea></div>
+      <div class="form-group"><label>External Link</label><input id="sm-link" value="${esc(item.link||'')}"></div>
+      <div class="form-group"><label>Or link to Static Page</label>
+        <select id="sm-static-page"><option value="">None</option>${pages.map(p=>`<option value="${p.id}"${item.staticPageId===p.id?' selected':''}>${p.title}</option>`).join('')}</select>
+      </div>`;
+    subModalHandler=async()=>{
+      const arr=[...d('news')];
+      const o={date:smv('sm-date'),title:smv('sm-title'),body:smv('sm-body'),link:smv('sm-link'),staticPageId:smv('sm-static-page')};
+      if(type==='news-add') arr.unshift(o); else arr[data.idx]=o;
+      D.news=arr; await saveDB(); renderHome(); buildDashContent('news'); closeSubModal(); toast('Saved!');
+    }; return;
+  }
+
+  /* ----- MEMBER ----- */
+  if(type==='member-add'||type==='member-edit'){
+    const item=type==='member-edit'?d('members')[data.idx]:{type:data.mtype||'current'};
+    title.textContent=type==='member-add'?'Add Member':'Edit Member';
+    body.innerHTML=`
+      <div class="form-row">
+        <div class="form-group"><label>Name</label><input id="sm-name" value="${esc(item.name||'')}"></div>
+        <div class="form-group"><label>Badge</label><input id="sm-badge" value="${esc(item.badge||'')}"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Type</label><select id="sm-type"><option value="current"${item.type==='current'?' selected':''}>Current</option><option value="alumni"${item.type==='alumni'?' selected':''}>Alumni</option></select></div>
+        <div class="form-group"><label>Photo URL</label><input id="sm-photo" value="${esc(item.photo||'')}"></div>
+      </div>
+      <div class="form-group"><label>Position / Affiliation</label><input id="sm-pos" value="${esc(item.pos||'')}"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Google Scholar URL</label><input id="sm-scholar" value="${esc(item.scholar||'')}"></div>
+        <div class="form-group"><label>INSPIRE URL</label><input id="sm-inspire" value="${esc(item.inspire||'')}"></div>
+      </div>
+      <div class="form-group"><label>Webpage URL</label><input id="sm-web" value="${esc(item.web||'')}"></div>`;
+    subModalHandler=async()=>{
+      const arr=[...d('members')];
+      const o={type:smv('sm-type'),name:smv('sm-name'),badge:smv('sm-badge'),photo:smv('sm-photo'),pos:smv('sm-pos'),scholar:smv('sm-scholar'),inspire:smv('sm-inspire'),web:smv('sm-web')};
+      if(type==='member-add') arr.push(o); else arr[data.idx]=o;
+      D.members=arr; await saveDB(); renderGroup(); buildDashContent('group'); closeSubModal(); toast('Saved!');
+    }; return;
+  }
+
+  /* ----- RESEARCH AREA ----- */
+  if(type==='area-add'||type==='area-edit'){
+    const item=type==='area-edit'?d('researchAreas')[data.idx]:{};
+    title.textContent=type==='area-add'?'Add Research Area':'Edit Research Area';
+    body.innerHTML=`
+      <div class="form-row">
+        <div class="form-group"><label>Icon</label><input id="sm-icon" value="${esc(item.icon||'🔬')}" style="max-width:80px;"></div>
+        <div class="form-group"><label>Title</label><input id="sm-title" value="${esc(item.title||'')}"></div>
+      </div>
+      <div class="form-group"><label>Description</label><textarea id="sm-desc">${esc(item.desc||'')}</textarea></div>`;
+    subModalHandler=async()=>{
+      const arr=[...d('researchAreas')];
+      const o={icon:smv('sm-icon'),title:smv('sm-title'),desc:smv('sm-desc')};
+      if(type==='area-add') arr.push(o); else arr[data.idx]=o;
+      D.researchAreas=arr; await saveDB(); renderResearch(); renderHome(); buildDashContent('research'); closeSubModal(); toast('Saved!');
+    }; return;
+  }
+
+  /* ----- PUBLICATION ----- */
+  if(type==='pub-add'||type==='pub-edit'){
+    const key=data.cat==='group'?'pubsGroup':'pubsLigo', item=type==='pub-edit'?d(key)[data.idx]:{};
+    title.textContent=type==='pub-add'?'Add Publication':'Edit Publication';
+    body.innerHTML=`
+      <div class="form-row">
+        <div class="form-group"><label>Year</label><input id="sm-yr" value="${esc(item.yr||'')}"></div>
+        <div class="form-group"><label>Section</label><select id="sm-cat"><option value="group"${data.cat==='group'?' selected':''}>Group</option><option value="ligo"${data.cat==='ligo'?' selected':''}>LIGO</option></select></div>
+      </div>
+      <div class="form-group"><label>Title</label><textarea id="sm-title" style="min-height:55px">${esc(item.title||'')}</textarea></div>
+      <div class="form-group"><label>Authors</label><input id="sm-authors" value="${esc(item.authors||'')}"></div>
+      <div class="form-group"><label>Journal</label><input id="sm-journal" value="${esc(item.journal||'')}"></div>
+      <div class="form-group"><label>DOI / URL</label><input id="sm-doi" value="${esc(item.doi||'')}"></div>`;
+    subModalHandler=async()=>{
+      const cat=smv('sm-cat'), pk=cat==='group'?'pubsGroup':'pubsLigo';
+      const arr=[...d(pk)];
+      const o={yr:smv('sm-yr'),title:smv('sm-title'),authors:smv('sm-authors'),journal:smv('sm-journal'),doi:smv('sm-doi')};
+      if(type==='pub-add') arr.unshift(o);
+      else if(cat===data.cat) arr[data.idx]=o;
+      else arr.unshift(o);
+      D[pk]=arr; await saveDB(); renderResearch(); buildDashContent('publications'); closeSubModal(); toast('Saved!');
+    }; return;
+  }
+
+  /* ----- RESOURCE ----- */
+  if(type==='res-add'||type==='res-edit'){
+    const item=type==='res-edit'?(d('resources')[data.key]||[])[data.idx]:{};
+    const secs=[{k:'books',l:'Books'},{k:'reviews',l:'Reviews'},{k:'videos',l:'Videos'},{k:'popular',l:'Popular'}];
+    title.textContent=type==='res-add'?'Add Resource':'Edit Resource';
+    body.innerHTML=`
+      <div class="form-group"><label>Section</label><select id="sm-key">${secs.map(s=>`<option value="${s.k}"${data.key===s.k?' selected':''}>${s.l}</option>`).join('')}</select></div>
+      <div class="form-group"><label>Title</label><input id="sm-title" value="${esc(item.title||'')}"></div>
+      <div class="form-group"><label>Author / Source</label><input id="sm-authors" value="${esc(item.authors||'')}"></div>
+      <div class="form-group"><label>URL (optional)</label><input id="sm-url" value="${esc(item.url||'')}"></div>`;
+    subModalHandler=async()=>{
+      if(!D.resources) D.resources=JSON.parse(JSON.stringify(DEF.resources));
+      const k=smv('sm-key'); if(!D.resources[k]) D.resources[k]=[];
+      const arr=type==='res-edit'&&k===data.key?[...D.resources[k]]:[...(D.resources[k]||[])];
+      const o={title:smv('sm-title'),authors:smv('sm-authors'),url:smv('sm-url')};
+      if(type==='res-add') arr.push(o); else if(k===data.key) arr[data.idx]=o; else arr.push(o);
+      D.resources[k]=arr; await saveDB(); renderResources(); buildDashContent('resources'); closeSubModal(); toast('Saved!');
+    }; return;
+  }
+
+  /* ----- PAGE ----- */
+  if(type==='page-add'||type==='page-edit'){
+    const item=type==='page-edit'?(d('staticPages')||[])[data.idx]:{};
+    title.textContent=type==='page-add'?'Create Page':'Edit Page';
+    body.innerHTML=`
+      <div class="form-group"><label>Page ID (unique, no spaces)</label><input id="sm-pid" value="${esc(item.id||'')}" placeholder="my-page-id" ${type==='page-edit'?'readonly style="opacity:.6"':''}></div>
+      <div class="form-group"><label>Title</label><input id="sm-title" value="${esc(item.title||'')}"></div>
+      <div class="form-group"><label>Subtitle</label><input id="sm-subtitle" value="${esc(item.subtitle||'')}"></div>
+      <div class="form-group"><label>Cover Photo URL</label><input id="sm-photo" value="${esc(item.photo||'')}"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Date</label><input id="sm-date" value="${esc(item.date||'')}"></div>
+        <div class="form-group"><label>Author</label><input id="sm-author" value="${esc(item.author||'')}"></div>
+      </div>
+      <div class="form-group"><label>Body (each line = paragraph)</label><textarea id="sm-body" style="min-height:160px">${esc(item.body||'')}</textarea></div>`;
+    subModalHandler=async()=>{
+      const pid=smv('sm-pid'); if(!pid){ toast('Page ID required','error'); return; }
+      const pages=[...(d('staticPages')||[])];
+      const o={id:pid,title:smv('sm-title'),subtitle:smv('sm-subtitle'),photo:smv('sm-photo'),date:smv('sm-date'),author:smv('sm-author'),body:document.getElementById('sm-body').value};
+      if(type==='page-add'){
+        if(pages.find(p=>p.id===pid)){ toast('ID already exists','error'); return; }
+        pages.push(o);
+      } else { pages[data.idx]=o; }
+      D.staticPages=pages; await saveDB(); renderHome(); buildDashContent('pages'); closeSubModal(); toast('Saved!');
+    }; return;
+  }
+}
+
+/* ============================================================
+   ANIMATION UPLOAD HANDLER
+============================================================ */
+async function doAnimUpload(){
+  const fileInput=document.getElementById('sm-anim-file');
+  const name=document.getElementById('sm-anim-name').value.trim();
+  const desc=document.getElementById('sm-anim-desc').value.trim();
+  const status=document.getElementById('sm-anim-status');
+  const file=fileInput?.files?.[0];
+  if(!file){ status.textContent='❌ Please select a file.'; return; }
+  if(!name){ status.textContent='❌ Please enter a name.'; return; }
+  const ext=file.name.split('.').pop().toLowerCase();
+  if(!['html','htm','js','py'].includes(ext)){ status.textContent='❌ Only .html, .js, .py allowed.'; return; }
+  if(file.size>2*1024*1024){ status.textContent='❌ File too large (max 2MB).'; return; }
+  status.textContent='⏳ Reading…';
+  const reader=new FileReader();
+  reader.onload=async(e)=>{
+    if(!D.resources) D.resources=JSON.parse(JSON.stringify(DEF.resources));
+    if(!D.resources.animations) D.resources.animations=[];
+    D.resources.animations.push({name, description:desc, type:ext==='htm'?'html':ext, content:e.target.result,
+      fileName:file.name, uploadedAt:new Date().toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'})});
+    await saveDB(); renderResources(); buildDashContent('animations'); closeSubModal(); toast(`"${name}" uploaded!`);
+  };
+  reader.onerror=()=>{ status.textContent='❌ Read failed.'; };
+  reader.readAsText(file);
+}
+
+/* ============================================================
+   MODAL CLOSE / SAVE
+============================================================ */
+function closeSubModal(){
+  document.getElementById('sub-modal').classList.add('hidden');
+  document.getElementById('sub-modal-save').textContent='Save';
+  subModalHandler=null;
+}
+function subModalSave(){ if(subModalHandler) subModalHandler(); }
+function refreshEl(id,html){ const el=document.getElementById(id); if(el) el.innerHTML=html; }
+
+/* ============================================================
+   DELETE HELPERS
+============================================================ */
+async function delCV(key,idx){ if(!confirm('Delete?')) return; const arr=[...d(key)]; arr.splice(idx,1); D[key]=arr; await saveDB(); renderProf(); refreshEl(key==='positions'?'positions-dash-list':'edu-dash-list',buildCVList(key)); toast('Deleted!'); }
+async function delNews(idx){ if(!confirm('Delete?')) return; const arr=[...d('news')]; arr.splice(idx,1); D.news=arr; await saveDB(); renderHome(); buildDashContent('news'); toast('Deleted!'); }
+async function delMember(idx){ if(!confirm('Delete?')) return; const arr=[...d('members')]; arr.splice(idx,1); D.members=arr; await saveDB(); renderGroup(); buildDashContent('group'); toast('Deleted!'); }
+async function delResearchArea(idx){ if(!confirm('Delete?')) return; const arr=[...d('researchAreas')]; arr.splice(idx,1); D.researchAreas=arr; await saveDB(); renderResearch(); renderHome(); buildDashContent('research'); toast('Deleted!'); }
+async function delPub(cat,idx){ if(!confirm('Delete?')) return; const k=cat==='group'?'pubsGroup':'pubsLigo'; const arr=[...d(k)]; arr.splice(idx,1); D[k]=arr; await saveDB(); renderResearch(); buildDashContent('publications'); toast('Deleted!'); }
+async function delRes(key,idx){ if(!confirm('Delete?')) return; if(!D.resources) D.resources=JSON.parse(JSON.stringify(DEF.resources)); D.resources[key].splice(idx,1); await saveDB(); renderResources(); buildDashContent('resources'); toast('Deleted!'); }
+async function delAnim(idx){ if(!confirm('Delete animation?')) return; if(!D.resources) D.resources=JSON.parse(JSON.stringify(DEF.resources)); if(!D.resources.animations) D.resources.animations=[]; D.resources.animations.splice(idx,1); await saveDB(); renderResources(); buildDashContent('animations'); toast('Deleted!'); }
+async function delPage(idx){ if(!confirm('Delete page?')) return; const pages=[...(d('staticPages')||[])]; pages.splice(idx,1); D.staticPages=pages; await saveDB(); renderHome(); buildDashContent('pages'); toast('Deleted!'); }
+async function delUser(idx){ const users=d('users'); if(['admin','archana','sagar'].includes(users[idx]?.id)){ toast('Cannot delete protected account','error'); return; } if(!confirm('Delete user?')) return; if(!D.users) D.users=JSON.parse(JSON.stringify(DEF.users)); D.users.splice(idx,1); await saveDB(); buildDashContent('users'); toast('Deleted!'); }
+
+/* ============================================================
+   HELPERS
+============================================================ */
+function fv(id){ const e=document.getElementById(id); return e?e.value.trim():''; }
+function smv(id){ const e=document.getElementById(id); return e?e.value.trim():''; }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* ============================================================
+   DASHBOARD OPEN / CLOSE
+============================================================ */
+function openDash(){
+  if(!currentUser){ openSubModal('login',{}); return; }
+  document.getElementById('dash-overlay').classList.add('open');
+  buildDashTabs(); buildDashContent(currentDashSection);
+}
+function closeDash(){ document.getElementById('dash-overlay').classList.remove('open'); }
+function adminLogout(){
+  currentUser=null; closeDash();
+  document.getElementById('admin-trigger-btn').textContent='🔐 Login';
+  document.getElementById('dash-user-label').textContent='—';
+  toast('Logged out');
+}
+
+/* ============================================================
+   BLACK HOLE CANVAS
+============================================================ */
+(function(){
+  const c=document.getElementById('bhCanvas'), ctx=c.getContext('2d');
+  let W,H,t=0; const stars=[];
+  function resize(){ W=c.width=c.offsetWidth; H=c.height=c.offsetHeight; stars.length=0;
+    for(let i=0;i<220;i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4,a:Math.random()}); }
+  window.addEventListener('resize',resize); resize();
+  function drawBH(x,y,r,gc){
+    let g=ctx.createRadialGradient(x,y,r*.4,x,y,r*4.5);
+    g.addColorStop(0,gc+'99');g.addColorStop(0.4,gc+'33');g.addColorStop(1,'transparent');
+    ctx.beginPath();ctx.arc(x,y,r*4.5,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+    ctx.save();ctx.translate(x,y);ctx.scale(1,0.28);
+    let dg=ctx.createRadialGradient(0,0,r*.9,0,0,r*3.2);
+    dg.addColorStop(0,gc+'cc');dg.addColorStop(0.5,gc+'55');dg.addColorStop(1,'transparent');
+    ctx.beginPath();ctx.arc(0,0,r*3.2,0,Math.PI*2);ctx.fillStyle=dg;ctx.fill();ctx.restore();
+    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle='#000';ctx.fill();
+    ctx.strokeStyle=gc+'88';ctx.lineWidth=1;ctx.stroke();
+  }
+  function frame(){
+    t+=0.008;ctx.clearRect(0,0,W,H);ctx.fillStyle='#04070f';ctx.fillRect(0,0,W,H);
+    stars.forEach(s=>{ ctx.globalAlpha=s.a*(0.6+0.4*Math.sin(t*.7+s.x));
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill(); });
+    ctx.globalAlpha=1;
+    const cx=W/2,cy=H/2,orbitR=Math.min(W,H)*.25,r1=Math.min(W,H)*.09,r2=Math.min(W,H)*.05;
+    const x1=cx+orbitR*Math.cos(t),y1=cy+orbitR*Math.sin(t)*.5,x2=cx-orbitR*Math.cos(t),y2=cy-orbitR*Math.sin(t)*.5;
+    for(let i=1;i<=8;i++){ const rr=(((t*60+i*55)%450)+20); const alpha=Math.max(0,.55-rr/480);
+      ctx.beginPath();ctx.ellipse(cx,cy,rr,rr*.55,0,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(232,201,126,${alpha})`;ctx.lineWidth=1;ctx.stroke(); }
+    drawBH(x1,y1,r1,'#e8c97e');drawBH(x2,y2,r2,'#c9a84c');
+    ctx.save();ctx.globalAlpha=.18;
+    let lg=ctx.createLinearGradient(x1,y1,x2,y2);
+    lg.addColorStop(0,'#e8c97e');lg.addColorStop(.5,'#fff');lg.addColorStop(1,'#c9a84c');
+    ctx.strokeStyle=lg;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.restore();
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ============================================================
+   INIT
+============================================================ */
+(async()=>{ await loadDB(); renderAll(); })();
+</script>
+</body>
+</html>
