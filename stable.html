@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Gravitational Wave Physics Group at IIT Bombay — researching compact binary coalescences, tests of general relativity, and multi-messenger astronomy."/>
+<meta property="og:title" content="Gravitational Wave Physics Group – IIT Bombay"/>
+<meta property="og:description" content="Researching compact binary coalescences, tests of GR, and multi-messenger astronomy at IIT Bombay."/>
+<meta property="og:type" content="website"/>
 <title>Gravitational Wave Physics Group – IIT Bombay</title>
 <style>
 /* ===================== VARIABLES ===================== */
@@ -20,7 +24,7 @@ a{color:var(--accent);text-decoration:none;}a:hover{color:var(--accent3);}
 img{max-width:100%;}
 
 /* ===================== NAV ===================== */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 5%;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(4,7,15,0.92);background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 5%;}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:62px;}
 .logo{font-size:.95rem;font-weight:700;color:var(--accent);letter-spacing:.5px;}
 .nav-right{display:flex;align-items:center;gap:4px;}
@@ -520,7 +524,7 @@ body.light-theme .sp-body{color:#3a4a64;}
 <div class="page" id="page-gw">
   <div class="res-body" style="padding-top:72px;">
     <div class="hs-label">Resources</div>
-    <div class="hs-title">Learn <em style="font-style:normal;background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Gravatational Wave Astronomy</em></div>
+    <div class="hs-title">Learn <em style="font-style:normal;background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Gravitational Wave Astronomy</em></div>
     <div class="hs-rule"></div>
     <p style="color:var(--muted);max-width:900px;margin-bottom:32px;">Curated resources for gravitational wave physics — textbooks, review articles, video lectures, popular science, and interactive simulations.</p>
     <div id="resources-sections"></div>
@@ -736,18 +740,18 @@ let animReturnPage = 'gw';
 const _activeTab = {};
 
 /* ============================================================
-   STORAGE  (window.storage — provided by Claude.ai artifact env)
+   STORAGE  (localStorage — works in all browsers)
 ============================================================ */
 async function saveDB(){
-  try{ await window.storage.set('gw-v7', JSON.stringify(D)); }
+  try{ localStorage.setItem('gw-v7', JSON.stringify(D)); }
   catch(e){ console.warn('Storage save failed', e); }
 }
 
 async function loadDB(){
   try{
-    const r = await window.storage.get('gw-v7');
-    if(r && r.value){
-      D = JSON.parse(r.value);
+    const raw = localStorage.getItem('gw-v7');
+    if(raw){
+      D = JSON.parse(raw);
       // Patch in any missing keys from DEF (safe migration)
       if(!D.piCV)       D.piCV       = {...DEF.piCV};
       if(!D.resources)  D.resources  = JSON.parse(JSON.stringify(DEF.resources));
